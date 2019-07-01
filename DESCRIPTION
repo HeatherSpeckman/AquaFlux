@@ -1,0 +1,18 @@
+Package: AquaFlux
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.5-1
+Author: person("Heather", "Speckman", email = "Heather.N.Speckman@gmail.com",
+                  role = c("aut", "cre"))
+Maintainer: Heather Speckman <Heather.N.Speckman@gmail.com>
+Description: AquaFlux is an open-source R package designed to efficiently process and analyze TDP data.  
+            AquaFlux can continually import raw TDP values with flexible formatting and alerts the user of 
+            malfunctioning sensors, thus optimizing data collection.  Post-processing analysis addresses 
+            gapfilling, radial trends, and rescaling.   To ensure reproducibility and transparency, all 
+            user decisions are automatically documented, highlighting the impact of the user’s decisions.
+Imports: shiny, shinyFiles, oce
+License: GPL (>= 2)
+Depends: R (>= 3.1.0)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1

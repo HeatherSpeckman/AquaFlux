@@ -10,7 +10,7 @@ Description: AquaFlux is an open-source R package designed to efficiently proces
             malfunctioning sensors, thus optimizing data collection.  Post-processing analysis addresses 
             gapfilling, radial trends, and rescaling.   To ensure reproducibility and transparency, all 
             user decisions are automatically documented, highlighting the impact of the user’s decisions.
-Imports: shiny, shinyFiles, oce
+Imports: shiny, shinyFiles, oce, roxygen2
 License: GPL (>= 2)
 Depends: R (>= 3.1.0)
 Encoding: UTF-8

@@ -11,6 +11,14 @@ Description: AquaFlux is an open-source R package designed to efficiently proces
             gapfilling, radial trends, and rescaling.   To ensure reproducibility and transparency, all 
             user decisions are automatically documented, highlighting the impact of the user’s decisions.
 Imports: shiny, shinyFiles, oce, roxygen2
+Exports: AquaFlux.Rd,
+  calc.tree.sapwood.area.Rd, 
+  convert.sapflux.gperm2ground.to.mm.Rd,
+  convert.sapflux.m2sapwood.to.m2ground.Rd,
+  convert.sapflux.time.units.Rd,
+  convert.sapflux.vol.units.Rd,
+  gapfill.sapflux.Rd,
+  radial.trends.Rd 
 License: GPL (>= 2)
 Depends: R (>= 3.1.0)
 Encoding: UTF-8

@@ -12,7 +12,12 @@
 #  GUIdir
 #####################################################################
 
-.test.GuiDir = function(a, lab){
+.test.GuiDir = function(a, lab, v){
+
+  print("lilo in .test.GuiDir") #lilo, v
+  print(v$setup.SiteType ) #lilo
+  print("lilo in .test.GuiDir 2") #lilo, v
+
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")

@@ -118,9 +118,9 @@
   #   print(file.path) #
   # })
   #### observe the paths
-  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v); } )
-  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v); } )
-  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v); } )
+  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; print(lab); v = .test.GuiDir(a, lab, v); } )
+  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; print(lab); v = .test.GuiDir(a, lab, v); } )
+  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; print(lab); v = .test.GuiDir(a, lab, v); } )
 
 
   ##############################################

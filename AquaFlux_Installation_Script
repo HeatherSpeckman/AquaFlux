@@ -1,0 +1,33 @@
+
+#######################################
+#   AquaFlux Installation Script
+#######################################
+#' This script will install AquaFlux in RStudio
+#' 
+
+##### Installation 
+#' Install package "devtools" which allows you to install software directly
+#' from Github
+install.packages("devtools")
+library(devtools)
+# Actually download AquaFlux
+install_github("HeatherSpeckman/AquaFlux") #, force=T)
+library(AquaFlux)
+
+###### Lauch AquaFlux GUI
+AquaFlux()
+
+####### Important resources
+
+#' README : a pdf explaining the science of sapflux and explains how
+#' AquaFlux works. Provide examples and troubleshooting help.
+#' 
+#' 
+#' 
+
+#'   Example data:
+https://github.com/HeatherSpeckman/AquaFlux/tree/master/example%20data
+#'   Contains example data to run with AquaFlux.  The "met" folder contains
+#'   meteorological data, and the "sap" folder raw dT values.
+#'   The example data has the followed meta data-
+#'   

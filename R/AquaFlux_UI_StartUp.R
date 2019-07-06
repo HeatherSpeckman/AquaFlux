@@ -13,11 +13,14 @@
 #####################################################################
 
 .test.GuiDir = function(a, lab, v){
+<<<<<<< HEAD
 
   print("lilo in .test.GuiDir") #lilo, v
   print(v$setup.SiteType ) #lilo
   print("lilo in .test.GuiDir 2") #lilo, v
 
+=======
+>>>>>>> c16a7b0f79316b1e8c33a69e6ad48242b4b564a6
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")

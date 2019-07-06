@@ -13,8 +13,6 @@
 .AquaFlux.server <- function(input, output, session) {
 
 
-
-
   v <- shiny::reactiveValues(
     ####### File name tags  -- used to name AquaFlux's saves of data
     tag.dT.raw = "All dT Data Unfiltered",
@@ -120,9 +118,9 @@
   #   print(file.path) #
   # })
   #### observe the paths
-  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab); } )
-  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab); } )
-  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab); } )
+  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v); } )
+  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v); } )
+  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v); } )
 
 
   ##############################################

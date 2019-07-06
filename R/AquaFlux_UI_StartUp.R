@@ -13,9 +13,9 @@
 #####################################################################
 
 .test.GuiDir = function(a, lab, v){
-  print("lilo in .test.GuiDir") #lilo, v
-  print(exists(v$setup.SiteType) ) #lilo
-  print("lilo in .test.GuiDir 2") #lilo, v
+  #print("lilo in .test.GuiDir") #lilo, v
+  #print(exists(v$setup.SiteType) ) #lilo
+  #print("lilo in .test.GuiDir 2") #lilo, v
 
 
   # get the file path

@@ -32,22 +32,22 @@
   # if it's a good path, use it
   if (good.path==T & b1!=unix.start & b1!=windows.start){ #lilo-- add start for windows
     if (lab=="GuiDirSave"){
-      v$setup.SiteType = paste( "Save directory accepted:", b1)
-      v$AquaFlux.work.dir = b1
+ #     v$setup.SiteType = paste( "Save directory accepted:", b1)
+ #     v$AquaFlux.work.dir = b1
     }
     if (lab=="GuiDirMet"){
-      v$setup.SiteType = paste( "Met directory accepted:", b1)
-      v$accepted.met.dir = T
-      v$met.dir = b1
+ #     v$setup.SiteType = paste( "Met directory accepted:", b1)
+ #     v$accepted.met.dir = T
+ #     v$met.dir = b1
     }
     if (lab=="GuiDirDT"){
-      v$setup.SiteType = paste( "dT directory accepted:", b1)
-      v$accepted.dt.dir = T
-      v$dt.dir = b1
+ #     v$setup.SiteType = paste( "dT directory accepted:", b1)
+ #     v$accepted.dt.dir = T
+ #     v$dt.dir = b1
     }
   } #else
   # export
-  v
+ # v
 }
 
 

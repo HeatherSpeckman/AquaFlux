@@ -12,43 +12,43 @@
 #  GUIdir
 #####################################################################
 
-.test.GuiDir = function(a, lab, v){
+#.test.GuiDir = function(a, lab, v){
   #print("lilo in .test.GuiDir") #lilo, v
   #print(exists(v$setup.SiteType) ) #lilo
   #print("lilo in .test.GuiDir 2") #lilo, v
 
 
   # get the file path
-  b = unlist(a[1])
-  b0 = paste0(b, collapse = "/")
-  b1 = b0
-  unix.start = "~/"
-  windows.start = "~/"
-  if ( .Platform$OS.type=="unix"){ b1= paste0(unix.start,b0)}
-  if ( .Platform$OS.type=="windows"){ stop("PROGRAM THIS FOR WINDOWS"); b1= paste0(windows.start,b0) } #lilo
+ # b = unlist(a[1])
+  #b0 = paste0(b, collapse = "/")
+ # b1 = b0
+ # unix.start = "~/"
+ # windows.start = "~/"
+ # if ( .Platform$OS.type=="unix"){ b1= paste0(unix.start,b0)}
+ # if ( .Platform$OS.type=="windows"){ stop("PROGRAM THIS FOR WINDOWS"); b1= paste0(windows.start,b0) } #lilo
 
   # test if it's a good path
-  good.path = file.exists(b1)
+  #good.path = file.exists(b1)
   # if it's a good path, use it
-  if (good.path==T & b1!=unix.start & b1!=windows.start){ #lilo-- add start for windows
-    if (lab=="GuiDirSave"){
+  #if (good.path==T & b1!=unix.start & b1!=windows.start){ #lilo-- add start for windows
+  #  if (lab=="GuiDirSave"){
  #     v$setup.SiteType = paste( "Save directory accepted:", b1)
  #     v$AquaFlux.work.dir = b1
-    }
-    if (lab=="GuiDirMet"){
+  #  }
+  #  if (lab=="GuiDirMet"){
  #     v$setup.SiteType = paste( "Met directory accepted:", b1)
  #     v$accepted.met.dir = T
  #     v$met.dir = b1
-    }
-    if (lab=="GuiDirDT"){
+ #   }
+ #   if (lab=="GuiDirDT"){
  #     v$setup.SiteType = paste( "dT directory accepted:", b1)
  #     v$accepted.dt.dir = T
  #     v$dt.dir = b1
-    }
-  } #else
+ #   }
+ # } #else
   # export
  # v
-}
+#}
 
 
 

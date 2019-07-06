@@ -14,7 +14,7 @@
 
 .test.GuiDir = function(a, lab, v){
   print("lilo in .test.GuiDir") #lilo, v
-  print(v$setup.SiteType ) #lilo
+  print(exists(v$setup.SiteType) ) #lilo
   print("lilo in .test.GuiDir 2") #lilo, v
 
 

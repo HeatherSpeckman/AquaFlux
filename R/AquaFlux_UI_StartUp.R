@@ -8,7 +8,7 @@
 
 
 .test.GuiDir = function(a, lab, v){
-print("lilo test5")
+print("lilo test6")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")

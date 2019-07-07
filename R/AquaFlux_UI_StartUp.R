@@ -8,7 +8,7 @@
 
 
 .test.GuiDir = function(a, lab, v){
-print("lilo test7")
+print("lilo test8")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
@@ -27,6 +27,7 @@ print("lilo test7")
   
   # test if it's a good path
   good.path = file.exists(b1)
+  print(paste("good.path",good.path))
   # if it's a good path, use it
   if (good.path==T & b1!=unix.start & b1!=windows.start){ #lilo-- add start for windows
     if (lab=="GuiDirSave"){

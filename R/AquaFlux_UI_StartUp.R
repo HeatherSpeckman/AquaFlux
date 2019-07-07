@@ -20,10 +20,10 @@ print("lilo test8")
   #print(a)
   #  print(b)
   b1 = paste0(roots,b0) #"~/"
-
+x = getwd()
   print(paste("b0",b0))
   print(paste("roots",roots))
-print("getwd",getwd())
+print("getwd",x)
   # paste0(windows.start,b0)
 #stop("PROGRAM THIS FOR WINDOWS");
   

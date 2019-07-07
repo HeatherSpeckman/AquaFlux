@@ -8,7 +8,7 @@
 
 
 .test.GuiDir = function(a, lab, v, roots){
-print("lilo test9")
+print("lilo test10")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
@@ -20,18 +20,13 @@ print("lilo test9")
   #print(a)
   #  print(b)
   b1 = paste0(roots,b0) #"~/"
-x = getwd()
-  print(paste("b0",b0))
-  print(paste("roots",roots))
-print(paste("getwd",x))
-  # paste0(windows.start,b0)
-#stop("PROGRAM THIS FOR WINDOWS");
+  print(paste("b1",b1))
   
   # test if it's a good path
   good.path = file.exists(b1)
   print(paste("good.path",good.path))
   # if it's a good path, use it
-  if (good.path==T & b1!=unix.start & b1!=windows.start){ #lilo-- add start for windows
+  if (good.path==T & b1!=roots){ #lilo-- add start for windows
     if (lab=="GuiDirSave"){
       v$setup.SiteType = paste( "Save directory accepted:", b1)
       v$AquaFlux.work.dir = b1

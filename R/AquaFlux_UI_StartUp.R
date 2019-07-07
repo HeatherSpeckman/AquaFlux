@@ -8,17 +8,19 @@
 
 
 .test.GuiDir = function(a, lab, v){
-print("lilo test4")
+print("lilo test5")
   # get the file path
- # b = unlist(a[1])
- # b0 = paste0(b, collapse = "/")
+  b = unlist(a[1])
+  b0 = paste0(b, collapse = "/")
  # b1 = b0
  # unix.start = "~/"
  # windows.start = "~/"
  # if ( .Platform$OS.type=="unix"){ b1= paste0(unix.start,b0)}
  # if ( .Platform$OS.type=="windows"){   print("windows"); print(b1) } #lilo
-  b1 = a
-  print(b1)
+  print(a)
+    print(b)
+  print(b0)
+
   # paste0(windows.start,b0)
 #stop("PROGRAM THIS FOR WINDOWS");
   

@@ -20,6 +20,7 @@ print("lilo test5")
   print(a)
     print(b)
   print(b0)
+  b1 = "~/"
 
   # paste0(windows.start,b0)
 #stop("PROGRAM THIS FOR WINDOWS");

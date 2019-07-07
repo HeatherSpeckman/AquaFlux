@@ -16,8 +16,9 @@
   unix.start = "~/"
   windows.start = "~/"
   if ( .Platform$OS.type=="unix"){ b1= paste0(unix.start,b0)}
-  if ( .Platform$OS.type=="windows"){ stop("PROGRAM THIS FOR WINDOWS"); b1= paste0(windows.start,b0) } #lilo
-
+  if ( .Platform$OS.type=="windows"){  b1= paste0(windows.start,b0) ; print("windows"); print(b1) } #lilo
+#stop("PROGRAM THIS FOR WINDOWS");
+  
   # test if it's a good path
   good.path = file.exists(b1)
   # if it's a good path, use it

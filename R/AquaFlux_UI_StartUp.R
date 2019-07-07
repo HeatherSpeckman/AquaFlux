@@ -19,7 +19,7 @@ print("lilo test8")
  # if ( .Platform$OS.type=="windows"){   print("windows"); print(b1) } #lilo
   #print(a)
   #  print(b)
-  b1 = paste(roots,b0) #"~/"
+  b1 = paste0(roots,b0) #"~/"
 
   print(paste("b0",b0))
   print(paste("roots",roots))

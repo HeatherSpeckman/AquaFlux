@@ -105,7 +105,7 @@
   #   #       GUI folder navigate         ##
   #   ##############################################
   #   # GuiDir
-  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home = '~'))
+  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home = getwd() ))
   shinyFiles::shinyDirChoose(input, 'GuiDirMet', roots = c(home = '~'))
   shinyFiles::shinyDirChoose(input, 'GuiDirDT', roots = c(home = '~'))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirSave))

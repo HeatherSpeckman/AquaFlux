@@ -19,10 +19,11 @@ print("lilo test8")
  # if ( .Platform$OS.type=="windows"){   print("windows"); print(b1) } #lilo
   #print(a)
   #  print(b)
-  print(b0)
-  print(roots)
-  b1 = b0 #"~/"
+  b1 = paste(roots,b0) #"~/"
 
+  print(paste("b0",b0))
+  print(paste("roots",roots))
+print("getwd",getwd())
   # paste0(windows.start,b0)
 #stop("PROGRAM THIS FOR WINDOWS");
   

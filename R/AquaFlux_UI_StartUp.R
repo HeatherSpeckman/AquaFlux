@@ -8,7 +8,7 @@
 
 
 .test.GuiDir = function(a, lab, v, roots){
-print("lilo test8")
+print("lilo test9")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
@@ -23,7 +23,7 @@ print("lilo test8")
 x = getwd()
   print(paste("b0",b0))
   print(paste("roots",roots))
-print("getwd",paste(x))
+print(paste("getwd",x))
   # paste0(windows.start,b0)
 #stop("PROGRAM THIS FOR WINDOWS");
   

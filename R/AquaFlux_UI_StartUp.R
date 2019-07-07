@@ -7,7 +7,7 @@
 # only UI commands are found here
 
 
-.test.GuiDir = function(a, lab, v){
+.test.GuiDir = function(a, lab, v, roots){
 print("lilo test8")
   # get the file path
   b = unlist(a[1])
@@ -20,6 +20,7 @@ print("lilo test8")
   #print(a)
   #  print(b)
   print(b0)
+  print(roots)
   b1 = b0 #"~/"
 
   # paste0(windows.start,b0)

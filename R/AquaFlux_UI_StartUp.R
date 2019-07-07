@@ -8,17 +8,10 @@
 
 
 .test.GuiDir = function(a, lab, v, roots){
-print("lilo test10")
+print("lilo test11")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
- # b1 = b0
-  unix.start = "~/"
-  windows.start = "~/"
- # if ( .Platform$OS.type=="unix"){ b1= paste0(unix.start,b0)}
- # if ( .Platform$OS.type=="windows"){   print("windows"); print(b1) } #lilo
-  #print(a)
-  #  print(b)
   b1 = paste0(roots,b0) #"~/"
   print(paste("b1",b1))
   

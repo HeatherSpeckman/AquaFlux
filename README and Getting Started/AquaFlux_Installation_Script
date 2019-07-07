@@ -1,9 +1,12 @@
 
 #######################################
-#   AquaFlux Installation Script
+#   AquaFlux Install script
 #######################################
-#' This script will install AquaFlux in RStudio
+#' This script will install AquaFlux
 #' 
+
+##### wipes the slate,
+rm(list=ls()) 
 
 ##### Installation 
 #' Install package "devtools" which allows you to install software directly
@@ -11,23 +14,48 @@
 install.packages("devtools")
 library(devtools)
 # Actually download AquaFlux
-install_github("HeatherSpeckman/AquaFlux") #, force=T)
+install_github("HeatherSpeckman/AquaFlux") 
 library(AquaFlux)
 
-###### Lauch AquaFlux GUI
+###### Launch AquaFlux GUI
 AquaFlux()
 
+
+##################################################
 ####### Important resources
 
-#' README : a pdf explaining the science of sapflux and explains how
+############' README : a pdf explaining the science of sapflux and explains how
 #' AquaFlux works. Provide examples and troubleshooting help.
-#' 
-#' 
-#' 
+https://github.com/HeatherSpeckman/AquaFlux/blob/master/README%20and%20Getting%20Started/AquaFlux_README.pdf
 
-#'   Example data:
-https://github.com/HeatherSpeckman/AquaFlux/tree/master/example%20data
-#'   Contains example data to run with AquaFlux.  The "met" folder contains
-#'   meteorological data, and the "sap" folder raw dT values.
-#'   The example data has the followed meta data-
-#'   
+############'   Example data:
+#'   The AquaFlux Github repository includes example data.   This dataset will be referenced throughout
+#'    this tutorial.  It is recommended that you download this data, save it to your computer, and follow 
+#'    the walkthrough.  
+#'   Met data:
+https://github.com/HeatherSpeckman/AquaFlux/blob/master/README%20and%20Getting%20Started/Example%20Data/Met%20Tower%20Data.csv
+# Raw dT data
+https://github.com/HeatherSpeckman/AquaFlux/blob/master/README%20and%20Getting%20Started/Example%20Data/SF%20Data.csv
+# Important: you want move each of these files to be in their own folder, with no other data in there. 
+# See section 2.2 for further explanation. 
+
+##### Questions and answers for the example data 
+#' Where do you want AquaFlux to save stuff: <user must define>
+#' Where is your meteorological data: <user must define>
+#' Data delimiter: Comma
+#' How many lines before your header: 1
+#' How many lines before your data proper: 4
+#' Site Names: Example
+#' Raw dT directory: <user must define>
+#' Study year: 2015
+#' Common timestamp formula: %m/%d/%y %H:%M
+#' Timestamp name in dT data: TIMESTAMP
+#' Timestamp name in met data: TIMESTAMP
+#' What are the dT units: mV
+#' Air_Temp = ? : AirT_C
+#' Air_Temp units: C
+#' Relative Humidity: RH_percent
+#' Relative Humidity Units: %
+#' Choose non-sapflux columns: TIMESTAMP, Example_Stem_Temp
+ 
+ 

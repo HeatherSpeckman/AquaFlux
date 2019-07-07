@@ -12,9 +12,8 @@ rm(list=ls())
 #' Install package "devtools" which allows you to install software directly
 #' from Github
 install.packages("devtools")
-library(devtools)
 # Actually download AquaFlux
-install_github("HeatherSpeckman/AquaFlux") 
+devtools::install_github("HeatherSpeckman/AquaFlux") 
 library(AquaFlux)
 
 ###### Launch AquaFlux GUI

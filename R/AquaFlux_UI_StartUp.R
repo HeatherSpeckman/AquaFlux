@@ -23,7 +23,7 @@ print("lilo test8")
 x = getwd()
   print(paste("b0",b0))
   print(paste("roots",roots))
-print("getwd",x)
+print("getwd",paste(x))
   # paste0(windows.start,b0)
 #stop("PROGRAM THIS FOR WINDOWS");
   

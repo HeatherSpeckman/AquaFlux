@@ -105,7 +105,7 @@
   #   #       GUI folder navigate         ##
   #   ##############################################
   #   # GuiDir
-  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2] ) ) )
+  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
   shinyFiles::shinyDirChoose(input, 'GuiDirMet', roots = c(home = '~'))
   shinyFiles::shinyDirChoose(input, 'GuiDirDT', roots = c(home = '~'))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirSave))
@@ -119,7 +119,7 @@
   #   print(file.path) #
   # })
   #### observe the paths
-  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v, roots); } )
+  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v, c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) ); } )
   shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v, roots); } )
   shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v, roots); } )
 

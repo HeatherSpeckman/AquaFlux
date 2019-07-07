@@ -106,8 +106,8 @@
   #   ##############################################
   #   # GuiDir
   shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
-  shinyFiles::shinyDirChoose(input, 'GuiDirMet', roots = c(home = '~'))
-  shinyFiles::shinyDirChoose(input, 'GuiDirDT', roots = c(home = '~'))
+  shinyFiles::shinyDirChoose(input, 'GuiDirMet', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
+  shinyFiles::shinyDirChoose(input, 'GuiDirDT', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirSave))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirMet))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirDT))

@@ -3,10 +3,6 @@
 #   AquaFlux Install script
 #######################################
 #' This script will install AquaFlux
-#' 
-
-##### wipes the slate,
-rm(list=ls()) 
 
 ##### Installation 
 #' Install package "devtools" which allows you to install software directly

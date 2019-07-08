@@ -50,7 +50,7 @@
 
 ########### .dir.declare.save
 
-.dir.declare.save.man = shiny::textInput('AquaFlux.work.dir', "Where do you want AquaFlux to save stuff?", value = "<Copy & Paste file path>")
+.dir.declare.save.man = shiny::textInput('AquaFlux.work.dir', "Where do you want AquaFlux to save stuff?  Ideally it's own folder.", value = "<Copy & Paste file path>")
 .dir.declare.save.nav = shinyFiles::shinyDirButton("GuiDirSave", "Or navigate to directory", "Upload")
 .dir.declare.save =   shiny::fluidPage(
   shiny::tags$div(.dir.declare.save.man,  style="display:inline-block"),
@@ -84,7 +84,7 @@
 
 
 ########### .dir.declare.met
-.dir.declare.met.man = shiny::textInput('met.dir', "Where is your meteorological data?", value = "<Copy & Paste file path>")
+.dir.declare.met.man = shiny::textInput('met.dir', "Where is your meteorological data?  There should be ONLY met data in this folder.", value = "<Copy & Paste file path>")
 .dir.declare.met.nav = shinyFiles::shinyDirButton("GuiDirMet", "Or navigate to directory", "Upload")
 .dir.declare.met =   shiny::fluidPage(
   shiny::tags$div(.dir.declare.met.man,  style="display:inline-block"),
@@ -93,7 +93,7 @@
 
 
 ########### .dir.declare.met
-.dir.declare.dt.man = shiny::textInput('dt.dir', "Raw dT Directory", value = "<Copy & Paste file path>")
+.dir.declare.dt.man = shiny::textInput('dt.dir', "Raw dT Directory.  There should be ONLY raw dT data in this folder.", value = "<Copy & Paste file path>")
 .dir.declare.dt.nav = shinyFiles::shinyDirButton("GuiDirDT", "Or navigate to directory", "Upload")
 .dir.declare.dt =   shiny::fluidPage(
   shiny::tags$div(.dir.declare.dt.man,  style="display:inline-block"),

@@ -112,12 +112,6 @@
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirMet))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirDT))
 
-  # # path -  I'm not sure what this does
-  # path <- shiny::reactive({
-  #   home <- normalizePath("~")
-  #   file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-  #   print(file.path) #
-  # })
   #### observe the paths
   shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
   shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
@@ -198,7 +192,7 @@
   shiny::observe({ v$number.of.lines.before.data = input$number.of.lines.before.data})
   shiny::observe({ v$site.names = input$site.names})
   shiny::observe({ v$dt.dir = input$dt.dir  })
-  shiny::observeEvent(input$Setup1,{ print("lilo hit Setup1");   v=.test.setup1(v) })
+  shiny::observeEvent(input$Setup1,{    v=.test.setup1(v) })
 
 
 

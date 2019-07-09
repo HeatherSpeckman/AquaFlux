@@ -58,10 +58,10 @@
   ###################### look at the headers for each folder
   # dt
   dirx = v$dt.dir[1]
-  .import.test.headers.match(v, dirx)
+ # .import.test.headers.match(v, dirx)
   # met
   dirx = v$met.dir[1]
-  .import.test.headers.match(v, dirx)
+#  .import.test.headers.match(v, dirx)
 
   # export
   v

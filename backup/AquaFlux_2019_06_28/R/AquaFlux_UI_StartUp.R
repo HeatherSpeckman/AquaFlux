@@ -7,30 +7,25 @@
 # only UI commands are found here
 
 
-<<<<<<< HEAD
 
 #####################################################################
 #  GUIdir
 #####################################################################
 
-.test.GuiDir = function(a, lab, v){
-
-  print("lilo in .test.GuiDir") #lilo, v
-  print(v$setup.SiteType ) #lilo
-  print("lilo in .test.GuiDir 2") #lilo, v
-
-
-=======
-.test.GuiDir = function(a, lab, v, roots){
->>>>>>> a2b63406e24030e4e8a7ab03e5739b01025ab872
+.test.GuiDir = function(a, lab){
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
-  b1 = paste0(roots,b0) #"~/"  
+  b1 = b0
+  unix.start = "~/"
+  windows.start = "~/"
+  if ( .Platform$OS.type=="unix"){ b1= paste0(unix.start,b0)}
+  if ( .Platform$OS.type=="windows"){ stop("PROGRAM THIS FOR WINDOWS"); b1= paste0(windows.start,b0) } #lilo
+  
   # test if it's a good path
   good.path = file.exists(b1)
   # if it's a good path, use it
-  if (good.path==T & b1!=roots){ #lilo-- add start for windows
+  if (good.path==T & b1!=unix.start & b1!=windows.start){ #lilo-- add start for windows
     if (lab=="GuiDirSave"){
       v$setup.SiteType = paste( "Save directory accepted:", b1)
       v$AquaFlux.work.dir = b1
@@ -45,10 +40,12 @@
       v$accepted.dt.dir = T
       v$dt.dir = b1
     }
-  } #else
+  } #else 
   # export
   v
 }
+
+
 
 
 
@@ -65,7 +62,7 @@
 
 ########### .dir.declare.save
 
-.dir.declare.save.man = shiny::textInput('AquaFlux.work.dir', "Where do you want AquaFlux to save stuff?  Ideally it's own folder.", value = "<Copy & Paste file path>")
+.dir.declare.save.man = shiny::textInput('AquaFlux.work.dir', "Where do you want AquaFlux to save stuff?", value = "<Copy & Paste file path>")
 .dir.declare.save.nav = shinyFiles::shinyDirButton("GuiDirSave", "Or navigate to directory", "Upload")
 .dir.declare.save =   shiny::fluidPage(
   shiny::tags$div(.dir.declare.save.man,  style="display:inline-block"),
@@ -91,7 +88,7 @@
 #######################################
 ###### Background
 #######################################
-#
+# 
 .delim.options = c("Comma" = ",",
                    "Tab" = "/t",
                    "Semicolon " = ";",
@@ -99,7 +96,7 @@
 
 
 ########### .dir.declare.met
-.dir.declare.met.man = shiny::textInput('met.dir', "Where is your meteorological data?  There should be ONLY met data in this folder.", value = "<Copy & Paste file path>")
+.dir.declare.met.man = shiny::textInput('met.dir', "Where is your meteorological data?", value = "<Copy & Paste file path>")
 .dir.declare.met.nav = shinyFiles::shinyDirButton("GuiDirMet", "Or navigate to directory", "Upload")
 .dir.declare.met =   shiny::fluidPage(
   shiny::tags$div(.dir.declare.met.man,  style="display:inline-block"),
@@ -108,7 +105,7 @@
 
 
 ########### .dir.declare.met
-.dir.declare.dt.man = shiny::textInput('dt.dir', "Raw dT Directory.  There should be ONLY raw dT data in this folder.", value = "<Copy & Paste file path>")
+.dir.declare.dt.man = shiny::textInput('dt.dir', "Raw dT Directory", value = "<Copy & Paste file path>")
 .dir.declare.dt.nav = shinyFiles::shinyDirButton("GuiDirDT", "Or navigate to directory", "Upload")
 .dir.declare.dt =   shiny::fluidPage(
   shiny::tags$div(.dir.declare.dt.man,  style="display:inline-block"),

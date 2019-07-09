@@ -1,63 +1,91 @@
 
-#####################################################################
-# Save  data
-#####################################################################
 
 
-.save.one.file = function( data.to.save, tag, is.Tmax,v){
-  study.year=v$study.year
-  PDate=v$PDate
-  save.dir=v$save.dir
-  number.of.saves.to.keep=v$number.of.saves.to.keep
-  
-  # save it
-  if (is.Tmax==T){
-    d.clean = data.to.save
-  } else{
-    d.clean = cbind(PDate,data.to.save)
-  }
-  name1 = paste( study.year, tag, Sys.time()  )
-  names(d.clean)
-  name1 = gsub(":", ".", name1)
-  write.csv(d.clean,   paste( name1, ".csv", sep="" ), row.names=F )
-  
-  # clean dir
-  jj = paste(study.year, tag); .clean.save.dir(jj,study.year,PDate,save.dir,number.of.saves.to.keep)
+
+#####################################################################
+#####################################################################
+#             Import-Export Functions                              ##
+#####################################################################
+#####################################################################
+# The below functions are used for data:
+#  import-export
+#  error checking
+#  converting raw units to standard AquaFlux
+#  general data wrangling
+#  set up
+#  data restoration
+
+# Nothing related to UI, plotting, or hardcore computations
+
+
+##############################################
+#   Load previous set up  ##
+##############################################
+
+
+.fill.this.vector = function(y,z){
+  n = length(z)
+  if (n>0){ y[1:n] = z }
+  y
 }
 
-.clean.save.dir = function(jj,study.year,PDate,save.dir,number.of.saves.to.keep){
-  file.list = list.files(save.dir,recursive=T,jj)
-  file.list = sort(file.list, decreasing=T)
-  if ( length(file.list) > number.of.saves.to.keep ){
-    delete.file.list = file.list[ (number.of.saves.to.keep+1) : (length(file.list))]
-    for ( n in delete.file.list){ file.remove(n) }
-  }
-}
-
-.save.AquaFlux= function(v){
-  # save files
+.load.site.metadata= function(v){
+  
+  v$save.dir = paste(v$AquaFlux.work.dir, "/Current Saves", sep="")
+  print("lilo setwd .finish.importing 4")
+  
   setwd(v$save.dir)
-  .save.one.file(v$dT.data, v$tag.dT.clean,F,v)
-  .save.one.file(v$Tmax.data, v$tag.Tmax, T,v)
-  time.last.save = Sys.time()
-  #.save.one.file(sapflux.data, .tag.flux, F)  # Not going to bother saving this since it's constantly re-calced.
-  #if (exists("flag.data")==T){ .save.one.file(flag.data, .tag.flag, F) }
-  # save log
-  time.last.save
+  x = read.csv(v$tag.site.matadata, stringsAsFactors = F)
+  ################ one.liners
+  # met
+  v$save.dir = .pull.this.vector(x$save.dir)
+  v$final.dir = .pull.this.vector(x$final.dir)
+  v$graph.dir = .pull.this.vector(x$graph.dir)
+  # met & units -changes
+  v$met.dir = .pull.this.vector(x$met.dir )
+  v$dT.units = .pull.this.vector(x$dT.units) # works
+  v$met.air.temp.label = .pull.this.vector(x$met.air.temp.label )#, crash
+  v$met.air.temp.units = .pull.this.vector(x$met.air.temp.units)
+  v$met.RH.label = .pull.this.vector(x$met.RH.label)
+  v$met.RH.units = .pull.this.vector(x$met.RH.units)
+  # data structure
+  v$max.gap.length = .pull.this.vector(x$max.gap.length )
+  v$min.number.of.columns.in.a.data.file = .pull.this.vector(x$min.number.of.columns.in.a.data.file)
+  v$delim.sep = .pull.this.vector(x$delim.sep)
+  v$number.of.before.headers = .pull.this.vector(x$number.of.before.headers)
+  v$number.of.lines.before.data = .pull.this.vector(x$number.of.lines.before.data)
+  # time data -  changes
+  v$study.year = .pull.this.vector(x$study.year)
+  v$selected.timestamp.format = .pull.this.vector(x$selected.timestamp.format)
+  v$dT.ts.name = .pull.this.vector(x$dT.ts.name )# crash
+  v$met.ts.name = .pull.this.vector(x$met.ts.name) # crash
+  # mulit
+  v$nonsapflux.columns = .pull.this.vector(x$nonsapflux.columns)
+  v$site.names = .pull.this.vector(x$site.names)
+  v$site.directories = .pull.this.vector(x$site.directories)
+  # calib
+  v$alpha =  118.99 * 10^(-6)
+  v$beta = 1.231
+  
+  # Export
+  v
 }
 
-.auto.save.check = function(v){ # this will auto-save your work every 5 turns
-  current.time = Sys.time()
-  time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
-  if ( time.diff > 5){
-    time.last.save = .save.AquaFlux(v)
-  } else {
-    time.last.save = v$time.last.save
-  }
-  time.last.save
+.pull.this.vector=function(x){
+  x = x[is.na(x)==F]
+  x
 }
 
-
+.setup.fix.AquaFlux.work.dir = function(a){
+  # do you end in "\\"?
+  x = substr(a, nchar(a)-1,nchar(a))
+  if (x=="\\"){ a = substr(a, 1,nchar(a)-2) } # cut off the last two char
+  # do you end in "/"?
+  x = substr(a, nchar(a),nchar(a))
+  if (x=="/"){ a = substr(a, 1,nchar(a)-1) } # cut off the last char
+  # export
+  a
+}
 
 .save.site.metadata= function(v){
   # ####### Define & create the directory where you want your in-process data to be saved:
@@ -97,7 +125,7 @@
   )
   # find max number of lines
   x = c(length(v$nonsapflux.columns), length(v$site.names),
-        length(v$dt.dir))
+        length(v$site.directories))
   max.x = max(x)
   ###### make things that right length
   # 1 lines
@@ -108,106 +136,84 @@
   y = rep(NA, times = max.x)
   nonsapflux.columns = .fill.this.vector(y,z=v$nonsapflux.columns)
   site.names = .fill.this.vector(y,z=v$site.names)
-  dt.dir = .fill.this.vector(y,z=v$dt.dir)
+  site.directories = .fill.this.vector(y,z=v$site.directories)
   #### combine
   z = data.frame(
     nonsapflux.columns =nonsapflux.columns,
     site.names=site.names,
-    dt.directories=dt.dir
+    site.directories=site.directories
   )
   site.metadata = cbind(one.liners.mat,z)
   # save it
   setwd(v$save.dir)
+  print("lilo setwd .finish.importing 5")
+  
   write.csv(site.metadata,file=v$tag.site.matadata, row.names=F)
 }
 
 
 
 
-
-
-
 #####################################################################
+# Save  data
 #####################################################################
-#             Import-Export Functions                              ##
-#####################################################################
-#####################################################################
-# The below functions are used for data:
-#  import-export
-#  error checking
-#  converting raw units to standard AquaFlux
-#  general data wrangling
-#  set up
-#  data restoration
-
-# Nothing related to UI, plotting, or hardcore computations
 
 
-##############################################
-#   Load previous set up  ##
-##############################################
-
-
-.fill.this.vector = function(y,z){
-  n = length(z)
-  if (n>0){ y[1:n] = z }
-  y
-}
-
-.load.site.metadata= function(v){
-  v$save.dir = paste(v$AquaFlux.work.dir, "/Current Saves", sep="")
-  setwd(v$save.dir)
-  x = read.csv(v$tag.site.matadata, stringsAsFactors = F)
-  ################ one.liners
-  # met
-  v$save.dir = .pull.this.vector(x$save.dir)
-  v$final.dir = .pull.this.vector(x$final.dir)
-  v$graph.dir = .pull.this.vector(x$graph.dir)
-  # met & units -changes
-  v$met.dir = .pull.this.vector(x$met.dir )
-  v$dT.units = .pull.this.vector(x$dT.units) # works
-  v$met.air.temp.label = .pull.this.vector(x$met.air.temp.label )#, crash
-  v$met.air.temp.units = .pull.this.vector(x$met.air.temp.units)
-  v$met.RH.label = .pull.this.vector(x$met.RH.label)
-  v$met.RH.units = .pull.this.vector(x$met.RH.units)
-  # data structure
-  v$max.gap.length = .pull.this.vector(x$max.gap.length )
-  v$min.number.of.columns.in.a.data.file = .pull.this.vector(x$min.number.of.columns.in.a.data.file)
-  v$delim.sep = .pull.this.vector(x$delim.sep)
-  v$number.of.before.headers = .pull.this.vector(x$number.of.before.headers)
-  v$number.of.lines.before.data = .pull.this.vector(x$number.of.lines.before.data)
-  # time data -  changes
-  v$study.year = .pull.this.vector(x$study.year)
-  v$selected.timestamp.format = .pull.this.vector(x$selected.timestamp.format)
-  v$dT.ts.name = .pull.this.vector(x$dT.ts.name )# crash
-  v$met.ts.name = .pull.this.vector(x$met.ts.name) # crash
-  # mulit
-  v$nonsapflux.columns = .pull.this.vector(x$nonsapflux.columns)
-  v$site.names = .pull.this.vector(x$site.names)
-  v$dt.dir = .pull.this.vector(x$dt.dir)
-  # calib
-  v$alpha =  118.99 * 10^(-6)
-  v$beta = 1.231
+.save.one.file = function( data.to.save, tag, is.Tmax,v){
+  study.year=v$study.year
+  PDate=v$PDate
+  save.dir=v$save.dir
+  number.of.saves.to.keep=v$number.of.saves.to.keep
   
-  # Export
-  v
+  # save it
+  if (is.Tmax==T){
+    d.clean = data.to.save
+  } else{
+    d.clean = cbind(PDate,data.to.save)
+  }
+  name1 = paste( study.year, tag, Sys.time()  )
+  names(d.clean)
+  name1 = gsub(":", ".", name1)
+  write.csv(d.clean,   paste( name1, ".csv", sep="" ), row.names=F )
+  
+  # clean dir
+  jj = paste(study.year, tag); .clean.save.dir(jj,study.year,PDate,save.dir,number.of.saves.to.keep)
 }
 
-.pull.this.vector=function(x){
-  x = x[is.na(x)==F]
-  x
+.clean.save.dir = function(jj,study.year,PDate,save.dir,number.of.saves.to.keep){
+  file.list = list.files(save.dir,recursive=T,jj)
+  file.list = sort(file.list, decreasing=T)
+  if ( length(file.list) > number.of.saves.to.keep ){
+    delete.file.list = file.list[ (number.of.saves.to.keep+1) : (length(file.list))]
+    for ( n in delete.file.list){ file.remove(n) }
+  }
 }
 
-.setup.fix.AquaFlux.work.dir = function(a){
-  # do you end in "\\"?
-  x = substr(a, nchar(a)-1,nchar(a))
-  if (x=="\\"){ a = substr(a, 1,nchar(a)-2) } # cut off the last two char
-  # do you end in "/"?
-  x = substr(a, nchar(a),nchar(a))
-  if (x=="/"){ a = substr(a, 1,nchar(a)-1) } # cut off the last char
-  # export
-  a
+.save.AquaFlux= function(v){
+  # save files
+  print("lilo setwd .finish.importing 6")
+  
+  setwd(v$save.dir)
+  .save.one.file(v$dT.data, v$tag.dT.clean,F,v)
+  .save.one.file(v$Tmax.data, v$tag.Tmax, T,v)
+  time.last.save = Sys.time()
+  #.save.one.file(sapflux.data, .tag.flux, F)  # Not going to bother saving this since it's constantly re-calced.
+  #if (exists("flag.data")==T){ .save.one.file(flag.data, .tag.flag, F) }
+  # save log
+  time.last.save
 }
+
+.auto.save.check = function(v){ # this will auto-save your work every 5 turns
+  current.time = Sys.time()
+  time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
+  if ( time.diff > 5){
+    time.last.save = .save.AquaFlux(v)
+  } else {
+    time.last.save = v$time.last.save
+  }
+  time.last.save
+}
+
 
 
 
@@ -222,87 +228,29 @@
 .setup1.finish.errorCheck = function(v){
   v$output.message = "The above looks good.  Next questions...";
   v$import.status = "ReadyForNew2"
-  
-  ########### check that file paths are valid
+  # check that file paths are valid
   x = try( setwd(v$AquaFlux.work.dir) ,silent=T); if (class(x)=="try-error"){
     output.message = "ERROR: invalid saving file path"
     v$import.status = "ReadyForNew1"
   }
-  x = try( setwd(v$met.dir) ,silent=T); if (class(x)=="try-error"){
+  x = try( setwd(v$met.dir) ,silent=T); if (class(x)=="try-error"){ 
     output.message = "ERROR: invalid meteorological data file path"
     v$import.status = "ReadyForNew1"
   }
-  for (i in v$dt.dir){
+  for (i in v$site.directories){
     x = try( setwd(i) ,silent=T);
-    if (class(x)=="try-error"){
-      output.message = paste("ERROR: invalid data file path:",i)
+    if (class(x)=="try-error"){ 
+      output.message = paste("ERROR: invalid data file path:",i) 
       v$import.status = "ReadyForNew1"
     }
   }
-  ##############################
   # number of dirs and names the same
-  if ( length(v$site.names)!=length(v$dt.dir) ) {
-    output.message = "ERROR: number of site names and number of directories not equal"
+  if ( length(v$site.names)!=length(v$site.directories) ) { 
+    output.message = "ERROR: number of site names and number of directories not equal" 
     v$import.status = "ReadyForNew1"
   }
-  
-  ###################### look at the headers for each folder 
-  # dt
-  dirx = v$dt.dir[1]
-  .import.test.headers.match(v, dirx)
-  # met
-  dirx = v$met.dir[1]
-  .import.test.headers.match(v, dirx)
-  
-  print("lilo passed tests")
-  
   # export
   v
-}
-
-
-.import.test.headers.match = function(v, dirx){
-  
-  file.list = list.files(path=dirx, full.names = T)
-  print("file.list dt")#lilo
-  print(file.list)#lilo
-  # grab the header
-  file.name0 = file.list[1]
-  h0=read.delim(file= file.name0,
-                nrow=1,
-                sep=v$delim.sep,
-                stringsAsFactor=F,header=F,
-                skip=v$number.of.before.headers,
-                na.strings = c("NA","NAN") )
-  
-  n = read.delim file.list[1] #lilo simba
-  for (file.name in file.list){
-    
-    h1=read.delim(file=file.name ,
-                  nrow=1,
-                  sep=v$delim.sep,
-                  stringsAsFactor=F,header=F,
-                  skip=v$number.of.before.headers,
-                  na.strings = c("NA","NAN") )
-    ### test same length, stop if wrong.  
-    # Developers note: this test was put in to improve stablity, but will restirct function when it comes
-    # to having more sensors added to a project.  Place for code improvement
-    if (length(h0)!=length(h1){ fail.test} 
-        print("FATAL ERROR: the following two files have different file headers.  File formatting should be consitant")
-        print(file.name0)
-        print(file.name)
-        stop("FATAL ERROR, see above")
-  }
-  
-  ###### headers match
-  a = sum(h0!=h1)
-  if (a){
-    print("FATAL ERROR: the following two files have different file headers.  File formatting should be consitant")
-    print(file.name0)
-    print(file.name)
-    stop("FATAL ERROR, see above")
-  }
-  ## 
 }
 
 .setup1.finish = function(v){
@@ -316,18 +264,23 @@
 
 
 .brute.combine= function(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep,min.number.of.columns.in.a.data.file){
+  paste("lilo setwd .brute.combine 1")
   file.list = list.files( recursive=T)
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
+  
   k = file.list[1]
+  paste("lilo setwd .brute.combine 2")
   
   for (k in file.list){
     file.to.import <<- k;
-    # j=j+1; setTxtProgressBar(pb, j) # update progress bar
+   # j=j+1; setTxtProgressBar(pb, j) # update progress bar
     x=read.delim(k,sep=delim.sep,
                  stringsAsFactor=F,header=F,
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )
     # bigger than min file columns?
+    paste("lilo setwd .brute.combine 3")
+    
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
       
       # name them
@@ -357,6 +310,8 @@
       
     }
   }
+  paste("lilo setwd .brute.combine 4")
+  
   file.to.import
   
   #close(pb)
@@ -368,17 +323,19 @@
 .combine.site.data = function(wd,jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, min.number.of.columns.in.a.data.file){
   ######################
   ###### combine site data: combines all the files from one site into one master file
+  print("lilo setwd .finish.importing 7")
+  print(paste("lilo setwd .finish.importing 7", wd))
+  
   setwd(wd);
+  print("lilo setwd .finish.importing 7a")
   # import all the files and combine to one gaint thing
   .brute.combine(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, min.number.of.columns.in.a.data.file)
+  print("lilo setwd .finish.importing 7b")
+  
   # clean basics
   dim(d)
   d$RECORD<- NULL
-  # clear null TIMESTAMPS
-  have.TIMESTAMP.col = sum( names(d)=="TIMESTAMP")>0
-  if (have.TIMESTAMP.col){
-    d= d[ is.na(d$TIMESTAMP)==F, ] # missing time stamp
-  }
+  d= d[ is.na(d$TIMESTAMP)==F, ] # missing time stamp
   d= d[ duplicated(d)==F, ]; dim(d) # delete obvious duplicates
   d=d[ , is.na(names(d))==F ]
   # export
@@ -387,37 +344,50 @@
 
 .import.met.data = function(v){
   # intialize
+  print("lilo setwd .finish.importing 8")
+  
   setwd(v$met.dir)
   wd = v$met.dir
   .start.a.data.file <<- 0
+  
   #### Actually read in the data
+  print("lilo setwd .import.met.data 1")
+  
   met.data = .combine.site.data(wd,jj=1,sn="",
                                 v$number.of.lines.before.data,
                                 v$number.of.before.headers,
                                 v$delim.sep,
                                 v$min.number.of.columns.in.a.data.file)
+  print("lilo setwd .import.met.data 2")
+  
   # clean up
   rm(file.to.import,envir = .GlobalEnv)
+  
   # export
   met.data
 }
 
 .import.raw.dT.data = function(v){
+  print("lilo setwd .import.raw.dT.data 1")
   ####### Handle raw data: this command combines ALL RAW data and makes it pretty
   start.a.data.file <<- 0
   # get data from each site and combine them into a dataframe named "d.merge"
   jj=1 # length(site.names)  1:length(site.names)
   for (jj in 1:length(v$site.names) ) {
     # get this site's names
-    sd = v$dt.dir[jj]
+    sd = v$site.directories[jj]
     wd=sd
     sn= v$site.names[jj]
+    print("lilo setwd .import.raw.dT.data 2")
+    
     # pull in that site's data
     d = .combine.site.data(sd,jj,sn,
                            v$number.of.lines.before.data,
                            v$number.of.before.headers,
                            v$delim.sep,
                            v$min.number.of.columns.in.a.data.file)
+    print("lilo setwd .import.raw.dT.data 3")
+    
     dim(d);
     
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name
@@ -425,6 +395,8 @@
     new.names[new.names==name.x] = "TIMESTAMP"
     xx = d
     names(xx)= new.names
+    print("lilo setwd .import.raw.dT.data 5")
+    
     # merge it
     if (jj==1){ d.merge=xx; }
     if (jj>1){
@@ -433,6 +405,8 @@
       d.merge=merge(x=d.merge,y=xx,all=T,by="TIMESTAMP")
       x = d.merge
     }
+    print("lilo setwd .import.raw.dT.data 5")
+    
   }
   
   d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
@@ -508,7 +482,7 @@
     v$restore.option= "none"
     # erase backup
     v$backup = NULL
-  }
+  } 
   v
 }
 .restore.all = function(v){
@@ -566,12 +540,18 @@
 # the master function: finish importing
 #######################################################
 .finish.importing = function(v){
+  print("lilo setwd .finish.importing 1")
   setwd(v$save.dir)
+  
   # get the raw data and it's time vectors
   v = .polish.raw.import(v)
+  print("lilo setwd .finish.importing 2")
+  
   setwd(v$save.dir)
+  
   # get small stuff
   v = .import.small.data(v)
+  
   # merge old and new
   v = .merge.old.and.new.dT.data(v)
   # export
@@ -746,11 +726,11 @@
   
   # 4) set up progress bar to merge previous and the new raw
   j=0; j.max = length(names(dT.data.previous)) # for progress bar
-  # pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
+ # pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
   
   # 5) actually do the merger
   for ( n in names(raw.dT.previous) ) {
-    # j=j+1; setTxtProgressBar(pb, j) # update progress bar
+   # j=j+1; setTxtProgressBar(pb, j) # update progress bar
     cc = n==names(raw.data)
     # if you have previous data
     if (sum(cc)>0){
@@ -812,6 +792,7 @@
   #  if (v$selected.timestamp.format!="none"){
   t1[cc] =  strptime(d$TIMESTAMP[cc], format=v$selected.timestamp.format, tz="UTC") # convert to time step
   cc = is.na(t1)==T
+  
   # check if you got them all
   d$TIMESTAMP[ cc ]
   if( sum(is.na(t1)==T)>0 ){
@@ -829,6 +810,7 @@
   d$TIMESTAMP = d[,names(d)==this.name]
   # use strptime
   d = .convert.TIMESTAMP(d,v)
+  
   # filter for only this year
   y = as.numeric(format(d$TIMESTAMP,format="%Y"))
   d = d[y==v$study.year,]
@@ -1127,7 +1109,7 @@
 # unclick the botton
 
 .export.sapflux = function(v){
-  sapflux.data = v$dT.data
+  sapflux.data = v$dT.data * NA
   for (tree.name in v$sapflux.names){
     v$tree.name = tree.name
     v$tree.number = match(tree.name,names(sapflux.data))
@@ -1135,6 +1117,9 @@
     y = .sapflux.calc.local(v,tree.name)
     sapflux.data[,v$tree.number] = y
   }
+  tree.name = "SF_Good_data1"
+  tree.number = match(tree.name,names(sapflux.data))
+  x= sapflux.data[,tree.number]
   # make blank sheet
   y = v$met.data
   z = data.frame(TIMESTAMP=y$TIMESTAMP,LDate=y$LDate, sapflux.data)

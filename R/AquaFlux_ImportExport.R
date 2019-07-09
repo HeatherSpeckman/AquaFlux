@@ -28,7 +28,6 @@
 ##############################################
 
 .setup1.finish.errorCheck = function(v){
-  print("lilo .setup1.finish.errorCheck")
 
   v$output.message = "The above looks good.  Next questions...";
   v$import.status = "ReadyForNew2"
@@ -64,8 +63,6 @@
   dirx = v$met.dir[1]
   .import.test.headers.match(v, dirx)
 
-  print("lilo passed tests")
-
   # export
   v
 }
@@ -74,8 +71,6 @@
 .import.test.headers.match = function(v, dirx){
 
   file.list = list.files(path=dirx, full.names = T)
-  print("file.list dt")#lilo
-  print(file.list)#lilo
   # grab the header
   file.name0 = file.list[1]
   h0=read.delim(file= file.name0,
@@ -86,7 +81,6 @@
                 na.strings = c("NA","NAN") )
 
   for (file.name in file.list){
-
     h1=read.delim(file=file.name ,
                   nrow=1,
                   sep=v$delim.sep,
@@ -96,7 +90,7 @@
     ### test same length, stop if wrong.
     # Developers note: this test was put in to improve stablity, but will restirct function when it comes
     # to having more sensors added to a project.  Place for code improvement
-    if (length(h0)!=length(h1) ){ f
+    if (length(h0)!=length(h1) ){
         print("FATAL ERROR: the following two files have different file headers.  File formatting should be consitant")
         print(file.name0)
         print(file.name)
@@ -112,12 +106,10 @@
       stop("FATAL ERROR, see above")
     }
   }
-  print("lilo done checking .import.test.headers.match")
   ##
 }
 
 .setup1.finish = function(v){
-  print("lilo .setup1.finish")
   # check these were entered
   v  = .setup1.finish.errorCheck(v)
   if (v$output.message =="The above looks good.  Next questions..." ){
@@ -397,8 +389,3 @@
   v$max.DOY = v$max.DOY.global
   v
 }
-
-
-#####################################################################
-# Export
-#####################################################################

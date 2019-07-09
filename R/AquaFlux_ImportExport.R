@@ -112,6 +112,7 @@
       stop("FATAL ERROR, see above")
     }
   }
+  print("lilo done checking .import.test.headers.match")
   ##
 }
 

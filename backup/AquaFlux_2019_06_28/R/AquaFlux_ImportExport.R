@@ -18,6 +18,197 @@
 # Nothing related to UI, plotting, or hardcore computations
 
 
+##############################################
+#   Load previous set up  ##
+##############################################
+
+
+.fill.this.vector = function(y,z){
+  n = length(z)
+  if (n>0){ y[1:n] = z }
+  y
+}
+
+.load.site.metadata= function(v){
+  v$save.dir = paste(v$AquaFlux.work.dir, "/Current Saves", sep="")
+  setwd(v$save.dir)
+  x = read.csv(v$tag.site.matadata, stringsAsFactors = F)
+  ################ one.liners
+  # met
+  v$save.dir = .pull.this.vector(x$save.dir)
+  v$final.dir = .pull.this.vector(x$final.dir)
+  v$graph.dir = .pull.this.vector(x$graph.dir)
+  # met & units -changes
+  v$met.dir = .pull.this.vector(x$met.dir )
+  v$dT.units = .pull.this.vector(x$dT.units) # works
+  v$met.air.temp.label = .pull.this.vector(x$met.air.temp.label )#, crash
+  v$met.air.temp.units = .pull.this.vector(x$met.air.temp.units)
+  v$met.RH.label = .pull.this.vector(x$met.RH.label)
+  v$met.RH.units = .pull.this.vector(x$met.RH.units)
+  # data structure
+  v$max.gap.length = .pull.this.vector(x$max.gap.length )
+  v$min.number.of.columns.in.a.data.file = .pull.this.vector(x$min.number.of.columns.in.a.data.file)
+  v$delim.sep = .pull.this.vector(x$delim.sep)
+  v$number.of.before.headers = .pull.this.vector(x$number.of.before.headers)
+  v$number.of.lines.before.data = .pull.this.vector(x$number.of.lines.before.data)
+  # time data -  changes
+  v$study.year = .pull.this.vector(x$study.year)
+  v$selected.timestamp.format = .pull.this.vector(x$selected.timestamp.format)
+  v$dT.ts.name = .pull.this.vector(x$dT.ts.name )# crash
+  v$met.ts.name = .pull.this.vector(x$met.ts.name) # crash
+  # mulit
+  v$nonsapflux.columns = .pull.this.vector(x$nonsapflux.columns)
+  v$site.names = .pull.this.vector(x$site.names)
+  v$dt.dir = .pull.this.vector(x$dt.dir)
+  # calib
+  v$alpha =  118.99 * 10^(-6)
+  v$beta = 1.231
+  
+  # Export
+  v
+}
+
+.pull.this.vector=function(x){
+  x = x[is.na(x)==F]
+  x
+}
+
+.setup.fix.AquaFlux.work.dir = function(a){
+  # do you end in "\\"?
+  x = substr(a, nchar(a)-1,nchar(a))
+  if (x=="\\"){ a = substr(a, 1,nchar(a)-2) } # cut off the last two char
+  # do you end in "/"?
+  x = substr(a, nchar(a),nchar(a))
+  if (x=="/"){ a = substr(a, 1,nchar(a)-1) } # cut off the last char
+  # export
+  a
+}
+
+.save.site.metadata= function(v){
+  # ####### Define & create the directory where you want your in-process data to be saved:
+  # do you have a "/"
+  v$AquaFlux.work.dir = .setup.fix.AquaFlux.work.dir(v$AquaFlux.work.dir)
+  # Define the directory where you AquaFlux to save your data:
+  v$save.dir = paste(v$AquaFlux.work.dir, "/Current Saves", sep="")
+  # Define the directory where you want your final data to be saved:
+  v$final.dir = paste(v$AquaFlux.work.dir, "/Final Data", sep="")
+  # Define the directory where you want your final data plots to be stored.
+  v$graph.dir = paste(v$AquaFlux.work.dir, "/Graphs", sep="")
+  dir.create(v$save.dir, showWarnings = FALSE)
+  dir.create(v$final.dir, showWarnings = FALSE)
+  dir.create(v$graph.dir, showWarnings = FALSE)
+  one.liners = data.frame(
+    save.dir = v$save.dir,
+    final.dir = v$final.dir,
+    graph.dir = v$graph.dir,
+    # met & units -changes
+    met.dir = v$met.dir,
+    dT.units = v$dT.units, # works
+    met.air.temp.label = v$met.air.temp.label, #, crash
+    met.air.temp.units = v$met.air.temp.units ,
+    met.RH.label = v$met.RH.label,
+    met.RH.units = v$met.RH.units,
+    # data structure
+    max.gap.length = v$max.gap.length ,
+    min.number.of.columns.in.a.data.file = v$min.number.of.columns.in.a.data.file,
+    delim.sep = v$delim.sep,
+    number.of.before.headers = v$number.of.before.headers,
+    number.of.lines.before.data = v$number.of.lines.before.data,
+    # time data -  changes
+    study.year = v$study.year,
+    selected.timestamp.format = v$selected.timestamp.format,
+    dT.ts.name = v$dT.ts.name, # crash
+    met.ts.name = v$met.ts.name # crash
+  )
+  # find max number of lines
+  x = c(length(v$nonsapflux.columns), length(v$site.names),
+        length(v$dt.dir))
+  max.x = max(x)
+  ###### make things that right length
+  # 1 lines
+  y = data.frame( matrix(NA, nrow= max.x - 1, ncol=ncol(one.liners)) )
+  names(y) = names(one.liners)
+  one.liners.mat = rbind( one.liners, y)
+  # multi
+  y = rep(NA, times = max.x)
+  nonsapflux.columns = .fill.this.vector(y,z=v$nonsapflux.columns)
+  site.names = .fill.this.vector(y,z=v$site.names)
+  dt.dir = .fill.this.vector(y,z=v$dt.dir)
+  #### combine
+  z = data.frame(
+    nonsapflux.columns =nonsapflux.columns,
+    site.names=site.names,
+    dt.directories=dt.dir
+  )
+  site.metadata = cbind(one.liners.mat,z)
+  # save it
+  setwd(v$save.dir)
+  write.csv(site.metadata,file=v$tag.site.matadata, row.names=F)
+}
+
+
+
+
+#####################################################################
+# Save  data
+#####################################################################
+
+
+.save.one.file = function( data.to.save, tag, is.Tmax,v){
+  study.year=v$study.year
+  PDate=v$PDate
+  save.dir=v$save.dir
+  number.of.saves.to.keep=v$number.of.saves.to.keep
+  
+  # save it
+  if (is.Tmax==T){
+    d.clean = data.to.save
+  } else{
+    d.clean = cbind(PDate,data.to.save)
+  }
+  name1 = paste( study.year, tag, Sys.time()  )
+  names(d.clean)
+  name1 = gsub(":", ".", name1)
+  write.csv(d.clean,   paste( name1, ".csv", sep="" ), row.names=F )
+  
+  # clean dir
+  jj = paste(study.year, tag); .clean.save.dir(jj,study.year,PDate,save.dir,number.of.saves.to.keep)
+}
+
+.clean.save.dir = function(jj,study.year,PDate,save.dir,number.of.saves.to.keep){
+  file.list = list.files(save.dir,recursive=T,jj)
+  file.list = sort(file.list, decreasing=T)
+  if ( length(file.list) > number.of.saves.to.keep ){
+    delete.file.list = file.list[ (number.of.saves.to.keep+1) : (length(file.list))]
+    for ( n in delete.file.list){ file.remove(n) }
+  }
+}
+
+.save.AquaFlux= function(v){
+  # save files
+  setwd(v$save.dir)
+  .save.one.file(v$dT.data, v$tag.dT.clean,F,v)
+  .save.one.file(v$Tmax.data, v$tag.Tmax, T,v)
+  time.last.save = Sys.time()
+  #.save.one.file(sapflux.data, .tag.flux, F)  # Not going to bother saving this since it's constantly re-calced.
+  #if (exists("flag.data")==T){ .save.one.file(flag.data, .tag.flag, F) }
+  # save log
+  time.last.save
+}
+
+.auto.save.check = function(v){ # this will auto-save your work every 5 turns
+  current.time = Sys.time()
+  time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
+  if ( time.diff > 5){
+    time.last.save = .save.AquaFlux(v)
+  } else {
+    time.last.save = v$time.last.save
+  }
+  time.last.save
+}
+
+
+
 
 #####################################################################
 # Set Up
@@ -28,95 +219,34 @@
 ##############################################
 
 .setup1.finish.errorCheck = function(v){
-  print("lilo .setup1.finish.errorCheck")
-
   v$output.message = "The above looks good.  Next questions...";
   v$import.status = "ReadyForNew2"
-
-  ########### check that file paths are valid
+  # check that file paths are valid
   x = try( setwd(v$AquaFlux.work.dir) ,silent=T); if (class(x)=="try-error"){
     output.message = "ERROR: invalid saving file path"
     v$import.status = "ReadyForNew1"
   }
-  x = try( setwd(v$met.dir) ,silent=T); if (class(x)=="try-error"){
+  x = try( setwd(v$met.dir) ,silent=T); if (class(x)=="try-error"){ 
     output.message = "ERROR: invalid meteorological data file path"
     v$import.status = "ReadyForNew1"
   }
   for (i in v$dt.dir){
     x = try( setwd(i) ,silent=T);
-    if (class(x)=="try-error"){
-      output.message = paste("ERROR: invalid data file path:",i)
+    if (class(x)=="try-error"){ 
+      output.message = paste("ERROR: invalid data file path:",i) 
       v$import.status = "ReadyForNew1"
     }
   }
-  ##############################
   # number of dirs and names the same
-  if ( length(v$site.names)!=length(v$dt.dir) ) {
-    output.message = "ERROR: number of site names and number of directories not equal"
+  if ( length(v$site.names)!=length(v$dt.dir) ) { 
+    output.message = "ERROR: number of site names and number of directories not equal" 
     v$import.status = "ReadyForNew1"
   }
-
-  ###################### look at the headers for each folder
-  # dt
-  dirx = v$dt.dir[1]
-  .import.test.headers.match(v, dirx)
-  # met
-  dirx = v$met.dir[1]
-  .import.test.headers.match(v, dirx)
-
-  print("lilo passed tests")
-
   # export
   v
 }
 
-
-.import.test.headers.match = function(v, dirx){
-
-  file.list = list.files(path=dirx, full.names = T)
-  print("file.list dt")#lilo
-  print(file.list)#lilo
-  # grab the header
-  file.name0 = file.list[1]
-  h0=read.delim(file= file.name0,
-                nrow=1,
-                sep=v$delim.sep,
-                stringsAsFactor=F,header=F,
-                skip=v$number.of.before.headers,
-                na.strings = c("NA","NAN") )
-
-  for (file.name in file.list){
-
-    h1=read.delim(file=file.name ,
-                  nrow=1,
-                  sep=v$delim.sep,
-                  stringsAsFactor=F,header=F,
-                  skip=v$number.of.before.headers,
-                  na.strings = c("NA","NAN") )
-    ### test same length, stop if wrong.
-    # Developers note: this test was put in to improve stablity, but will restirct function when it comes
-    # to having more sensors added to a project.  Place for code improvement
-    if (length(h0)!=length(h1) ){ f
-        print("FATAL ERROR: the following two files have different file headers.  File formatting should be consitant")
-        print(file.name0)
-        print(file.name)
-        stop("FATAL ERROR, see above")
-    }
-
-    ###### headers match
-    a = sum(h0!=h1)
-    if (a>0){
-      print("FATAL ERROR: the following two files have different file headers.  File formatting should be consitant")
-      print(file.name0)
-      print(file.name)
-      stop("FATAL ERROR, see above")
-    }
-  }
-  ##
-}
-
 .setup1.finish = function(v){
-  print("lilo .setup1.finish")
   # check these were entered
   v  = .setup1.finish.errorCheck(v)
   if (v$output.message =="The above looks good.  Next questions..." ){
@@ -133,21 +263,21 @@
 
   for (k in file.list){
     file.to.import <<- k;
-    # j=j+1; setTxtProgressBar(pb, j) # update progress bar
+   # j=j+1; setTxtProgressBar(pb, j) # update progress bar
     x=read.delim(k,sep=delim.sep,
                  stringsAsFactor=F,header=F,
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
-
+      
       # name them
       if (  .start.a.data.file == 1 ) { # if you have not yet started a file
         names(x)=names.dx # name it
       } else {
         # get the names
         number.of.before.headers <<- number.of.before.headers
-
+        
         d.x=read.delim(k,sep=delim.sep,
                        stringsAsFactor=F,header=T,
                        skip=number.of.before.headers ,
@@ -157,7 +287,7 @@
         names(x)=names(d.x)
         names.dx=names(d.x)
       }
-
+      
       # if merge them
       if (  .start.a.data.file == 1 ) { # if you have not yet started a file
         d= rbind(d,x)
@@ -165,14 +295,14 @@
         d = x;
         .start.a.data.file=1
       }
-
+      
     }
   }
   file.to.import
-
+  
   #close(pb)
   d <<- d
-
+  
   if (exists(file.to.import)==T){rm(file.to.import)}
 }
 
@@ -230,7 +360,7 @@
                            v$delim.sep,
                            v$min.number.of.columns.in.a.data.file)
     dim(d);
-
+    
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name
     name.x =  paste( sn ,"TIMESTAMP",sep="_")
     new.names[new.names==name.x] = "TIMESTAMP"
@@ -245,7 +375,7 @@
       x = d.merge
     }
   }
-
+  
   d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
   d.merge
 }
@@ -319,7 +449,7 @@
     v$restore.option= "none"
     # erase backup
     v$backup = NULL
-  }
+  } 
   v
 }
 .restore.all = function(v){
@@ -430,7 +560,7 @@
 .polish.raw.import = function(v){
   # This function handles your raw data.
   # No data-data taken from v (besides metadata)
-
+  
   ### make sure you have raw data
   v = .check.if.read.in.raw(v)
   v$raw.dT.data$JDate = NULL
@@ -459,14 +589,14 @@
   v$dT.data.previous = .read.in.previous.save(v$tag.dT.clean, keep.PDate=T,v)
   v$raw.dT.previous = .read.in.previous.save(v$tag.dT.raw, keep.PDate=T,v)
   does.previous.data.exist = length(v$dT.data.previous)!=1
-
+  
   # if it exists, merge it
   if (does.previous.data.exist==F){
     v = .import.clean.fresh.import(v)
   } else {
     v = .actually.merge.old.and.new.dT.data(v)
   }
-
+  
   v = .import.finish.merger(v)
   v
 }
@@ -474,17 +604,17 @@
 .import.clean.fresh.import = function(v){
   # clean dT and do time
   dT.data = v$raw.dT.data
-
+  
   # dT.data = .polish.previous.import(dT.data,v)
   dT.data$PDate <- NULL
   dT.data$JDate <- NULL
   dT.data$LDate <- NULL
   dT.data$TIMESTAMP <- NULL
-
+  
   # 8) save dT
   v$raw.data  =  dT.data
   v$dT.data = dT.data
-
+  
   # delete
   v$dT.data.previous = NULL
   v$raw.data.previous = NULL
@@ -492,11 +622,11 @@
   #  if (do.flags==T){ flag.data  <<- resized.flags }
   # export
   v
-
+  
 }
 
 .import.finish.merger = function(v){
-
+  
   # 8.5) Update min.DOY and max.DOY
   v = .update.doy.slider(v)
   v$min.DOY.global = floor(min(v$LDate))
@@ -506,19 +636,19 @@
   v$sapflux.names = v$sapflux.names[ v$sapflux.names!="JDate"]
   v$dT.data$JDate = NULL
   v$raw.data$JDate = NULL
-
+  
   # 9) calc sapflux
   # v = .calc.all.sapflux(v) # this does access all the data multiple times and takes a second
-
+  
   # 10) save it
   v$time.last.save = .save.AquaFlux(v)
   .save.one.file(v$raw.data, v$tag.dT.raw,F,v)
-
+  
   # 10.5) number of points in a day (on average)
   median.time.diff = median(diff(v$LDate),na.rm=T) # in partial doy
   v$measurements.in.a.day = round( 1 / median.time.diff )
-
-
+  
+  
   # 11) export
   v
 }
@@ -533,7 +663,7 @@
   raw.data$TIMESTAMP = NULL
   raw.data$JDate = NULL
   updated.dT = raw.data
-
+  
   # 2) Handle previous data
   dT.data.previous = v$dT.data.previous
   raw.dT.previous = v$raw.dT.previous
@@ -544,7 +674,7 @@
   dT.data.previous$TIMESTAMP <- NULL
   raw.dT.previous$PDate <- NULL
   raw.dT.previous$TIMESTAMP <- NULL
-
+  
   # 3) resave dT.data.previous to have the same size as raw.data
   x = matrix( nrow=nrow(raw.data), ncol=ncol(raw.data))
   x = as.data.frame(x)
@@ -554,33 +684,33 @@
   row.matches = match(PDate.previous,PDate ) # match row indexs
   resized.dT.data.previous[row.matches,] = dT.data.previous
   resized.raw.data.previous[row.matches,] = raw.dT.previous
-
+  
   # 4) set up progress bar to merge previous and the new raw
   j=0; j.max = length(names(dT.data.previous)) # for progress bar
-  # pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
-
+ # pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
+  
   # 5) actually do the merger
   for ( n in names(raw.dT.previous) ) {
-    # j=j+1; setTxtProgressBar(pb, j) # update progress bar
+   # j=j+1; setTxtProgressBar(pb, j) # update progress bar
     cc = n==names(raw.data)
     # if you have previous data
     if (sum(cc)>0){
-
+      
       # 6)  Determine which times had raw data previously, but are NA in the
       was.deleted = is.na(resized.dT.data.previous[,cc] )==T &  is.na(resized.raw.data.previous[,cc] )==F
-
+      
       # 7) Delete those times from updated.dT
       updated.dT[was.deleted,cc] = NA
     }
   }
-
+  
   # 8) clean things up
   v$dT.data = updated.dT
   v$raw.data  =  raw.data
   v$dT.data.previous = NULL
   v$raw.data.previous = NULL
   #  if (do.flags==T){ flag.data  <<- resized.flags }
-
+  
   # export
   v
 }
@@ -623,6 +753,7 @@
   #  if (v$selected.timestamp.format!="none"){
   t1[cc] =  strptime(d$TIMESTAMP[cc], format=v$selected.timestamp.format, tz="UTC") # convert to time step
   cc = is.na(t1)==T
+  
   # check if you got them all
   d$TIMESTAMP[ cc ]
   if( sum(is.na(t1)==T)>0 ){
@@ -640,6 +771,7 @@
   d$TIMESTAMP = d[,names(d)==this.name]
   # use strptime
   d = .convert.TIMESTAMP(d,v)
+  
   # filter for only this year
   y = as.numeric(format(d$TIMESTAMP,format="%Y"))
   d = d[y==v$study.year,]
@@ -647,7 +779,7 @@
   d= d[ duplicated(d)==F, ]; dim(d) # delete obvious duplicates
   # order
   d = d[order(d$TIMESTAMP),]
-
+  
   sum(is.na(d$TIMESTAMP))
   # export
   d
@@ -803,7 +935,7 @@
 
 .spline.fit.all = function(xout,y){
   cc = is.na(y)==F
-
+  
   #### if you have data to interpolate
   if (sum(cc)>0){
     y = y[cc]
@@ -815,13 +947,13 @@
   } else {
     #### if you don't have data to interpolate
   }
-
+  
   # export
   y
 }
 
 .gaps.smaller.than.this.size= function(y,max.gap.length){
-
+  
   # which i's missing vales
   y.na.i = which(is.na(y))
   # calc the gap length
@@ -915,7 +1047,7 @@
 
 .get.sapflux.columns = function(v ){
   v$n.dT.data = names(v$raw.dT.data)
-
+  
   s = seq(1,length(v$n.dT.data) )
   nonsapflux.col.i = match(v$nonsapflux.columns, v$n.dT.data )
   v$sapflux.col.i = setdiff(s,nonsapflux.col.i)
@@ -938,7 +1070,7 @@
 # unclick the botton
 
 .export.sapflux = function(v){
-  sapflux.data = v$dT.data
+  sapflux.data = v$dT.data * NA
   for (tree.name in v$sapflux.names){
     v$tree.name = tree.name
     v$tree.number = match(tree.name,names(sapflux.data))
@@ -946,6 +1078,9 @@
     y = .sapflux.calc.local(v,tree.name)
     sapflux.data[,v$tree.number] = y
   }
+  tree.name = "SF_Good_data1"
+  tree.number = match(tree.name,names(sapflux.data))
+  x= sapflux.data[,tree.number]
   # make blank sheet
   y = v$met.data
   z = data.frame(TIMESTAMP=y$TIMESTAMP,LDate=y$LDate, sapflux.data)
@@ -1016,7 +1151,7 @@
     ###### plot sapflux
     v$pick.plot.options = c("flux")
     .plot.sapflux(v)
-
+    
     # .plot.sapflux(v)
     dev.off()
   }

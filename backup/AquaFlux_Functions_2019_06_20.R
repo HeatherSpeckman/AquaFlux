@@ -1,4 +1,40 @@
+dir()
+source("AquaFlux_ServerFunctions.R")
+source("AquaFlux_comp.R")
+source("AquaFlux_ImportExport.R")
+source("AquaFlux_PlottingFunctions.R")
+source("AquaFlux_PostProcessing.R")
+source("AquaFlux_QAQCfunctions.R")
+source("AquaFlux_UI_BrokenSensors.R")
+source("AquaFlux_UI_Export.R")
+source("AquaFlux_UI_ProcessDT.R")
+source("AquaFlux_UI_StartUp.R")
 
+
+#####################################################################
+#####################################################################
+#####################################################################
+#             AquaFlux Codes                                      ##
+#####################################################################
+#####################################################################
+#####################################################################
+
+#####################################################################
+#       Master UI
+#####################################################################
+
+#####
+.AquaFlux.ui = shiny::fluidPage(
+  #  useShinyjs(),
+  # Title
+  shiny::titlePanel("AquaFlux"),
+  shiny::navbarPage("AquaFlux",
+                    shiny::tabPanel("Set Up Site", {.ui.setup.site }) ,
+                   shiny::tabPanel("List Broken Sensors", {.ui.BrokenSensors }),
+                   shiny::tabPanel("Process dT Data", {.ui.QAQC }),
+                   shiny::tabPanel("Export Sap Flux", {.ui.export })
+  )
+)
 
 
 #####################################################################
@@ -10,104 +46,16 @@
 #####################################################################
 
 
-
 .AquaFlux.server <- function(input, output, session) {
-
-
-  v <- shiny::reactiveValues(
-    ####### File name tags  -- used to name AquaFlux's saves of data
-    tag.dT.raw = "All dT Data Unfiltered",
-    tag.dT.clean = "Sapflux dT cleaned- Current",
-    tag.flag = "All Sapflux Flags- Current",
-    tag.Tmax = "Tmax- Current",
-    tag.flux = "Sapflux- Current",
-    tag.log.deletion = "Deletion Log- Current",
-    tag.site.matadata = "Site MetaData.csv",
-    #### standard time format
-    standard.time.format  = '%Y-%m-%d %H:%M', # Campbell default.
-    alternate.time.format = '%m/%d/%y %H:%M', # Excel default
-    third.time.format = '%d/%m/%Y %H:%M', # Excel default
-    R.time.format         = "%Y-%m-%d %H:%M", # R default
-    ######### doy
-    min.DOY = 0,
-    max.DOY = 367,
-    min.DOY.global = 0,
-    max.DOY.global = 367,
-    number.of.saves.to.keep = 10,
-    ####################### opening blank values these are advance options
-    max.gap.length = 8,
-    min.number.of.columns.in.a.data.file = 2,
-    ################ these are from your data
-    nonsapflux.columns = NA,
-    AquaFlux.work.dir = "<Copy & Paste file path>",
-    site.names = "MissingSiteName",
-    number.of.sites = 1,
-    n.met.data="<select>",
-    n.dT.data = "<select>",
-    importOption = "NoSite",
-    accepted.met.dir = F,
-    accepted.dt.dir = F,
-    ################   for the "Set up" panel
-    setup.SiteType = "",
-    StartButton = "empty",
-    SetupStep = 1,
-    setup.done = F,
-    Setup1 = "no",
-    setup.load.message = " ",
-    setup.SiteType = " ",
-    ################# import
-    import.status = "not.done",
-    sapflux.names = NA,
-    # plot
-    MinDT_brokensensor = 0,
-    VPD.thres = 0.2,
-    tree.number = 1,
-    b.range = NA,
-    tree.name = "none",
-    move.dir = "none",
-    pick.plot.options = "none",
-    LDate.local = c(0,400),
-    dT.local = c(0,1),
-    restore.options = "none",
-    i.need.for.Tmax.auto = NA,
-    autoQAQCmes = " ",
-    LastAutoFilter= "none",
-    export.done = F,
-    plotAutoQAQC = F,
-    BrokenSensors.mes.na = "<not ran yet>",
-    BrokenSensors.mes.sd = "<not ran yet>",
-    BrokenSensors.mes.low = "<not ran yet>",
-    #### QAQC
-    #  qaqc.1orAll = "False",
-    ######## export stuff
-    export.done = F,
-    export.mes.1=" ",
-    export.mes.2=" ",
-    export.mes.3=" ",
-    export.mes.4=" ",
-    export.mes.5=" ",
-    export.mes.6=" ",
-    export.mes.7=" ",
-    export.mes.8=" ",
-    export.mes.9=" ",
-    export.mes.10=" ",
-    time.last.save = Sys.time()
-  )
-
-
-
-
-
-
-
 
   #   ##############################################
   #   #       GUI folder navigate         ##
   #   ##############################################
   #   # GuiDir
-  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
-  shinyFiles::shinyDirChoose(input, 'GuiDirMet', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
-  shinyFiles::shinyDirChoose(input, 'GuiDirDT', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
+
+  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = paste0("/", unlist(strsplit( getwd(), "/"))[2] ) )
+  shinyFiles::shinyDirChoose(input, 'GuiDirMet', roots = c(home = '~'))
+  shinyFiles::shinyDirChoose(input, 'GuiDirDT', roots = c(home = '~'))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirSave))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirMet))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirDT))
@@ -116,14 +64,12 @@
   # path <- shiny::reactive({
   #   home <- normalizePath("~")
   #   file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-  #   print(file.path) #
+  #   print(file.path) #lilo
   # })
   #### observe the paths
-  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
-  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
-  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
-
-
+  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab); } )
+  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab); } )
+  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab); } )
 
 
   ##############################################
@@ -150,9 +96,9 @@
   shiny::observeEvent(input$IAmSure,{ v = .IAmSureNewSite(v) })
 
   shiny::observeEvent(input$launch.load,{
-    v$import.status <- "Loading";
-    v$setup.SiteType=paste("Loading your old and new data...")
-    v= .launch.load(v) #
+      v$import.status <- "Loading";
+      v$setup.SiteType=paste("Loading your old and new data...")
+      v= .launch.load(v) # lilo
   })
 
   shiny::observeEvent(input$launch.new,{ v= .launch.new(v) })
@@ -160,9 +106,9 @@
 
 
 
-  #   ##############################################
-  #   #       Set up functions - step 1          ##
-  #   ##############################################
+#   ##############################################
+#   #       Set up functions - step 1          ##
+#   ##############################################
   .dir.declare.met.full = renderUI({
     shiny::fluidPage(
       if ( v$accepted.met.dir == F) {   .dir.declare.met  },
@@ -171,34 +117,34 @@
   })
   .dir.declare.dt.full = renderUI({
     shiny::fluidPage(
-      if ( v$accepted.dt.dir == F) {   .dir.declare.dt  },
-      if ( v$accepted.dt.dir == T) {  shiny::helpText("Site directory accepted")  }
+      if ( v$accepted.site.dir == F) {   .dir.declare.dt  },
+      if ( v$accepted.site.dir == T) {  shiny::helpText("Site directory accepted")  }
     )
   })
 
-  output$ui.setup.1 = renderUI({ if ( v$import.status == 'ReadyForNew1') {
-    shiny::fluidPage(
-      .dir.declare.met.full,
-      shiny::helpText("Note: if your met and dT data are saved in the same files, paste that directory in both fields"),
-      shiny::selectInput("delim.sep", "Data Delimiter", .delim.options),
-      shiny::numericInput("number.of.before.headers", "How many lines before your data headers?", min=0,max=30, value=1),
-      shiny::numericInput("number.of.lines.before.data", "How many lines before your data proper?", min=1,max=30, value=4),
-      shiny::textAreaInput("site.names", "Site Names", "<Site name, 1 on each line>", width = "400px"),
-      .dir.declare.dt.full, #
-      shiny::actionButton( "Setup1", "Check my work (this will take a minute)"),
-      shiny::verbatimTextOutput(v$output.message)
-    ) } })
+    output$ui.setup.1 = renderUI({ if ( v$import.status == 'ReadyForNew1') {
+      shiny::fluidPage(
+        .dir.declare.met.full,
+        shiny::helpText("Note: if your met and dT data are saved in the same files, paste that directory in both fields"),
+        shiny::selectInput("delim.sep", "Data Delimiter", .delim.options),
+        shiny::numericInput("number.of.before.headers", "How many lines before your data headers?", min=0,max=30, value=1),
+        shiny::numericInput("number.of.lines.before.data", "How many lines before your data proper?", min=1,max=30, value=4),
+        shiny::textAreaInput("site.names", "Site Names", "<Site name, 1 on each line>", width = "400px"),
+        .dir.declare.dt.full, #
+        shiny::actionButton( "Setup1", "Check my work (this will take a minute)"),
+        shiny::verbatimTextOutput(v$output.message)
+      ) } })
 
-  #   ##############################################
-  #   #       Set up functions - step 2          ##
-  #   ##############################################
+    #   ##############################################
+    #   #       Set up functions - step 2          ##
+    #   ##############################################
   shiny::observe({ v$met.dir = input$met.dir})
   shiny::observe({ v$delim.sep = input$delim.sep})
   shiny::observe({ v$number.of.before.headers = input$number.of.before.headers })
   shiny::observe({ v$number.of.lines.before.data = input$number.of.lines.before.data})
   shiny::observe({ v$site.names = input$site.names})
-  shiny::observe({ v$dt.dir = input$dt.dir  })
-  shiny::observeEvent(input$Setup1,{ print("lilo hit Setup1");   v=.test.setup1(v) })
+   shiny::observe({ v$site.directories = input$site.dir  })
+   shiny::observeEvent(input$Setup1,{  v=.test.setup1(v) })
 
 
 
@@ -244,8 +190,12 @@
   shiny::observe({ v$nonsapflux.columns = input$nonsapflux.columns})
   shiny::observeEvent(input$finish.set.up,{
     ########### time
+    print("lilo in input$finish.set.up 1")
     .save.site.metadata(v)
+    print("lilo in input$finish.set.up 2")
     v = .finish.importing(v)
+    print("lilo in input$finish.set.up 3")
+
     v$setup.load.message = "Loaded in your site and data.  Continue on next panel."
     v$setup.done = T
     v$import.status = "done"
@@ -270,7 +220,7 @@
       shiny::selectInput("met.RH.units", "Relative Humidity Units", .RH.units.options),
       uiOutput("choose_nonsapflux"),
       conditionalPanel( "v$import.status = 'start.new'" , {
-        actionButton(inputId="finish.set.up", label="Finish Site Set Up (takes a minute)") }),
+        actionButton(inputId="finish.set.up", label="Finish Site Set Up") }),
       verbatimTextOutput("setup.load.message")
     ) } })
 
@@ -354,7 +304,7 @@
   ##############################################
   # generic bottons
 
-  observe({ v$VPD.thres = as.numeric(as.character(input$VPD.thres)); })
+  observe({ v$VPD.thres = as.numeric(as.character(input$VPD.thres));  })
   observe({ v$VPD.below.thres.for.x.hr = as.numeric(as.character(input$VPD.below.thres.for.x.hr)) })
 
   # generic bottons
@@ -444,7 +394,7 @@
   output$Aqaqc_Delete <- renderUI({ if ( v$processOption == 'autoqaqc') { shiny::actionButton(inputId="b.AutoQAQC.del", label="Delete") }})
 
   # v$processOption == 'manqaqc
-  output$Mqaqc_1orAll <- renderUI({ if ( v$processOption == 'manqaqc') { shiny::checkboxGroupInput("qaqc.1orAll", label=" ", choices  = c("Apply to *ALL* trees-- can NOT 'undo delete' " = "all"))   }})
+  output$Mqaqc_1orAll <- renderUI({ if ( v$processOption == 'manqaqc') { shiny::checkboxGroupInput("qaqc.1orAll", label=NA, choices  = c("Apply to *ALL* trees-- can NOT 'undo delete' " = "all"))   }})
   output$Mqaqc_manual <- renderUI({ if ( v$processOption == 'manqaqc') { shiny::radioButtons( "qaqc.manual", "Manual QAQC Options:", .qaqc.button.vector,selected = "none",inline=F) }})
 
   # v$processOption == 'tmax
@@ -465,5 +415,13 @@
 
 
 
+
+
+#####################################################################
+#             Actually Run AquaFlux                         ##
+#####################################################################
+AquaFlux <- function() {
+  shiny::shinyApp(.AquaFlux.ui, .AquaFlux.server)
+}
 
 

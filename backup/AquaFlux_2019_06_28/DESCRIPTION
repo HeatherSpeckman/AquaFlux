@@ -1,0 +1,20 @@
+Package: AquaFlux
+Title: AquaFlux: Swift and Transparent Analysis of Plant-level Transpiration
+Version: 0.1.0
+Authors@R: person("Heather", "Speckman", email = "Heather.N.Speckman@gmail.com",
+                  role = c("aut", "cre"))
+Description: to efficiently process and analyze TDP data.  AquaFlux can 
+	continually import raw TDP values with flexible formatting and alerts 
+	the user of malfunctioning sensors, thus optimizing data collection.  
+	Post-processing analysis addresses gapfilling, radial trends, and 
+	rescaling.   To ensure reproducibility and transparency, all user 
+	decisions are automatically documented, highlighting the impact of the 
+	user’s decisions.  See the following for more information: 
+	Speckman, H.N., Beverly, D.B. & Ewers, B.E. (In review) AquaFlux: Swift 
+	and Transparent Analysis of Plant-level Transpiration” .
+Depends: R (>= 3.1.0)
+Encoding: UTF-8
+License: What license is it under?
+LazyData: true
+Imports: 
+  shinyfiles

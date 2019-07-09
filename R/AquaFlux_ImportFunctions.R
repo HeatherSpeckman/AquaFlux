@@ -2,7 +2,7 @@
   file.list = list.files( recursive=T)
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
   k = file.list[1]
-  
+
   for (k in file.list){
     file.to.import <<- k;
     # j=j+1; setTxtProgressBar(pb, j) # update progress bar
@@ -10,16 +10,16 @@
                  stringsAsFactor=F,header=F,
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )
+    dim(x)
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
-      
       # name them
       if (  .start.a.data.file == 1 ) { # if you have not yet started a file
         names(x)=names.dx # name it
       } else {
         # get the names
         number.of.before.headers <<- number.of.before.headers
-        
+
         d.x=read.delim(k,sep=delim.sep,
                        stringsAsFactor=F,header=T,
                        skip=number.of.before.headers ,
@@ -28,8 +28,10 @@
         # save the names
         names(x)=names(d.x)
         names.dx=names(d.x)
+
+
       }
-      
+
       # if merge them
       if (  .start.a.data.file == 1 ) { # if you have not yet started a file
         d= rbind(d,x)
@@ -37,14 +39,14 @@
         d = x;
         .start.a.data.file=1
       }
-      
+
     }
   }
   file.to.import
-  
+
   #close(pb)
   d <<- d
-  
+
   if (exists(file.to.import)==T){rm(file.to.import)}
 }
 
@@ -102,7 +104,7 @@
                            v$delim.sep,
                            v$min.number.of.columns.in.a.data.file)
     dim(d);
-    
+
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name
     name.x =  paste( sn ,"TIMESTAMP",sep="_")
     new.names[new.names==name.x] = "TIMESTAMP"
@@ -117,7 +119,7 @@
       x = d.merge
     }
   }
-  
+
   d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
   d.merge
 }

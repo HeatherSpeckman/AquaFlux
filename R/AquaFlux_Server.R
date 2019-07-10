@@ -113,9 +113,9 @@
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirDT))
 
   #### observe the paths
-  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
-  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
-  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v,  paste0("/",unlist(strsplit(getwd(),"/"))[2])  ) } )
+  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v ) } ) # paste0("/",unlist(strsplit(getwd(),"/"))[2]) 
+  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v    ) } )
+  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v ) } )
 
 
 

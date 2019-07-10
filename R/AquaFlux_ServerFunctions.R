@@ -109,7 +109,6 @@
 
 .launch.new = function(v){
   v = .check.save.dir.has.stuff(v)
-  print(v$setup.SiteType)#
   v
 }
 

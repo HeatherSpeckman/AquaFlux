@@ -18,8 +18,6 @@
         names(x)=names.dx # name it
       } else {
         # get the names
-        number.of.before.headers <<- number.of.before.headers
-
         d.x=read.delim(k,sep=delim.sep,
                        stringsAsFactor=F,header=T,
                        skip=number.of.before.headers ,
@@ -43,9 +41,6 @@
     }
   }
   file.to.import
-
-  #close(pb)
-  d <<- d
 
   if (exists(file.to.import)==T){rm(file.to.import)}
 }
@@ -74,13 +69,13 @@
   # intialize
   setwd(v$met.dir)
   wd = v$met.dir
-  .start.a.data.file <<- 0
   #### Actually read in the data
   met.data = .combine.site.data(wd,jj=1,sn="",
                                 v$number.of.lines.before.data,
                                 v$number.of.before.headers,
                                 v$delim.sep,
-                                v$min.number.of.columns.in.a.data.file)
+                                v$min.number.of.columns.in.a.data.file,
+                               start.a.data.file=0)
   # clean up
   rm(file.to.import,envir = .GlobalEnv)
   # export
@@ -89,7 +84,6 @@
 
 .import.raw.dT.data = function(v){
   ####### Handle raw data: this command combines ALL RAW data and makes it pretty
-  start.a.data.file <<- 0
   # get data from each site and combine them into a dataframe named "d.merge"
   jj=1 # length(site.names)  1:length(site.names)
   for (jj in 1:length(v$site.names) ) {
@@ -102,7 +96,8 @@
                            v$number.of.lines.before.data,
                            v$number.of.before.headers,
                            v$delim.sep,
-                           v$min.number.of.columns.in.a.data.file)
+                           v$min.number.of.columns.in.a.data.file, 
+                          start.a.data.file=0)
     dim(d);
 
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name

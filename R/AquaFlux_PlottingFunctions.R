@@ -96,40 +96,21 @@
       VPD = VPD[cc.time]
       # flip if this is dT
       x.VPD = .plot.flip.var(VPD,is.dT)
-       print("lilo .plot.VPD 3a2")
-      # print(paste("lilo .plot.VPD ex",exists("VPD.thres")))
-      # print(paste("lilo .plot.VPD test",is.numeric(VPD.thres)))
-      # print(paste("lilo .plot.VPD test2", VPD.thres>0 ))
-      #if  ( (VPD.thres<inf ) == T) { print("less than inf!") }else { print("blank") }
-      print(paste("lilo .plot.VPD VPD.thres",VPD.thres))
-
-      print(paste("lilo .plot.VPD is.dT",is.dT))
       x.VPD.thres = .plot.flip.var(VPD.thres,is.dT)
-      print("lilo .plot.VPD 3a3")
-      print(paste("lilo .plot.VPD x.VPD.thres", x.VPD.thres))
-
       if (is.na(x.VPD.thres)==T){ x.VPD.thres= -0.2 }
-      print("lilo .plot.VPD 3a4")
-      print(paste("lilo .plot.VPD is.dT", is.dT))
       if( is.dT==T) { VPD.lab = '-VPD (kPa)' } else { VPD.lab = 'VPD (kPa)' }
       # plot VPD axis
-      print("lilo .plot.VPD 3b")
       par(new = T)
       plot(LDate.local, x.VPD, col=NA, axes=F, xlab=NA, ylab=NA)
       axis(side = 4); mtext(side = 4, line = 1.9, VPD.lab)
       # draw VPD polygon
       .draw.VPD.polgyon(x.VPD.thres)
-      print("lilo .plot.VPD 3c")
-
       # VPD lines
       lines(LDate.local, x.VPD, lwd=2, col="cornflowerblue")
       # back to plotting dT points
       par(new = T); plot(NA, NA, xlim=xlim, ylim=ylim ,col=NA,axes=F, xlab=NA, ylab=NA )
-      print("lilo .plot.VPD 3d")
-
     }
   }
-  print("lilo .plot.VPD 4")
 }
 ######################################################
 # plot AirT

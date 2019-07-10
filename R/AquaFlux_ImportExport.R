@@ -262,7 +262,6 @@
   # clean dT and do time
   dT.data = v$raw.dT.data
 
-  # dT.data = .polish.previous.import(dT.data,v)
   dT.data$PDate <- NULL
   dT.data$JDate <- NULL
   dT.data$LDate <- NULL
@@ -276,7 +275,6 @@
   v$dT.data.previous = NULL
   v$raw.data.previous = NULL
   v$raw.dT.data = NULL
-  #  if (do.flags==T){ flag.data  <<- resized.flags }
   # export
   v
 
@@ -366,7 +364,6 @@
   v$raw.data  =  raw.data
   v$dT.data.previous = NULL
   v$raw.data.previous = NULL
-  #  if (do.flags==T){ flag.data  <<- resized.flags }
 
   # export
   v

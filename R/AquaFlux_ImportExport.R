@@ -80,6 +80,7 @@
                 skip=v$number.of.before.headers,
                 na.strings = c("NA","NAN") )
 
+  
   for (file.name in file.list){
     h1=read.delim(file=file.name ,
                   nrow=1,

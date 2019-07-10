@@ -145,6 +145,7 @@
   # export
   i.need.for.Tmax.auto
 }
+
 .Tamx.autopick.crit3 = function(v,VPD,VPD.in.range){
   # how many indexes is that?
   if ( is.na(v$i.need.for.Tmax.auto)==T){ # if you don't know

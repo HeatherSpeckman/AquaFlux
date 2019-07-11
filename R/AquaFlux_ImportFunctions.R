@@ -33,7 +33,7 @@
       }
 
       # if merge them
-      if (  file.started != T ) { # if you have not yet started a file
+      if (  file.started == T ) { 
         d= rbind(d,x)
       } else {
         d = x;

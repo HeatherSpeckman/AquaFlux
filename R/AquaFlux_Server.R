@@ -105,18 +105,19 @@
   #   #       GUI folder navigate         ##
   #   ##############################################
   #   # GuiDir
-  shinyFiles::shinyDirChoose(input, 'GuiDirSave',  roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
-  shinyFiles::shinyDirChoose(input, 'GuiDirMet',  roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
-  shinyFiles::shinyDirChoose(input, 'GuiDirDT' ,  roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2])) )
+  
+  shinyFiles::shinyDirChoose(input, 'GuiDirSave', roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2]))  )
+  shinyFiles::shinyDirChoose(input, 'GuiDirMet',  roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2]))  )
+  shinyFiles::shinyDirChoose(input, 'GuiDirDT' ,  roots = c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2]))  )
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirSave))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirMet))
   output$GuiDir <- shiny::renderPrint(shiny::reactive(input$GuiDirDT))
 
   
   #### observe the paths
-  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v ) } ) # paste0("/",unlist(strsplit(getwd(),"/"))[2]) 
-  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v    ) } )
-  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v ) } )
+  shiny::observe({ a = input$GuiDirSave; lab="GuiDirSave"; v = .test.GuiDir(a, lab, v, roots=c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2]))  ) } ) # paste0("/",unlist(strsplit(getwd(),"/"))[2]) 
+  shiny::observe({ a = input$GuiDirMet; lab="GuiDirMet"; v = .test.GuiDir(a, lab, v , roots=c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2]))    ) } )
+  shiny::observe({ a = input$GuiDirDT; lab="GuiDirDT"; v = .test.GuiDir(a, lab, v, roots=c(home=paste0("/", unlist(strsplit( getwd(), "/"))[2]))  ) } )
 
 
 

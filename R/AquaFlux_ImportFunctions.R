@@ -3,7 +3,7 @@
   file.list = list.files( recursive=T)
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
   k = file.list[1]
-
+  file.stated = F
   for (k in file.list){
     file.to.import <<- k;
     # j=j+1; setTxtProgressBar(pb, j) # update progress bar
@@ -32,11 +32,11 @@
       }
 
       # if merge them
-      if (  .start.a.data.file == 1 ) { # if you have not yet started a file
+      if (  file.stated != T ) { # if you have not yet started a file
         d= rbind(d,x)
       } else {
         d = x;
-        .start.a.data.file=1
+        file.stated == T
       }
 
     }

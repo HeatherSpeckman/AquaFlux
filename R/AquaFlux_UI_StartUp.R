@@ -21,7 +21,7 @@
   print("b1")
   print(b1)
   # if it's a good path, use it
-  if (good.path==T & b1!="/"){ 
+  if (good.path==T & b1!="/" & b1!="/0"){ 
     if (lab=="GuiDirSave"){
       v$setup.SiteType = paste( "Save directory accepted:", b1)
       v$AquaFlux.work.dir = b1

@@ -19,7 +19,7 @@
   # test if it's a good path
   good.path = file.exists(b1)
   # if it's a good path, use it
-  if (good.path==T){ 
+  if (good.path==T & b1!="/"){ 
     if (lab=="GuiDirSave"){
       v$setup.SiteType = paste( "Save directory accepted:", b1)
       v$AquaFlux.work.dir = b1

@@ -15,7 +15,7 @@
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
       # name them
-      if (  file.started != T ) { # if you have not yet started a file
+      if (  file.started == T ) { 
         names(x)=names.dx # name it
       } else {
         # get the names

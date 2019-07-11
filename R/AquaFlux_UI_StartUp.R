@@ -12,9 +12,13 @@
 #####################################################################
 
 .test.GuiDir = function(a, lab, v){
+  print("")
+  print("new go")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
+  print("b0")
+  print(b0)
   b1 = paste0("/",b0) #"~/"  
   # test if it's a good path
   good.path = file.exists(b1)

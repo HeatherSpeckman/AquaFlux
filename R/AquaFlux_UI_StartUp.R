@@ -13,7 +13,7 @@
 
 .test.GuiDir = function(a, lab, v, roots){
   print("")
-  print("new go - lilo3")
+  print("new go - lilo4")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
@@ -29,7 +29,7 @@
   print(paste("good.path", good.path))
     print(paste("good.path b0", dir.exists(b0) ))
   # if it's a good path, use it
-  if (good.path==T & b1!="/" & b1!="/0"){ 
+  if (good.path==T & b1!="/" & b1!="/0" & b1!=roots){ 
     if (lab=="GuiDirSave"){
       v$setup.SiteType = paste( "Save directory accepted:", b1)
       v$AquaFlux.work.dir = b1

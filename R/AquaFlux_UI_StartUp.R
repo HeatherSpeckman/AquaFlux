@@ -13,7 +13,7 @@
 
 .test.GuiDir = function(a, lab, v, roots){
   print("")
-  print("new go - lilo5")
+  print("new go - lilo6")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")
@@ -24,10 +24,7 @@
   good.path = file.exists(b1)
   print("b1")
   print(b1)
-  print("lab")
-  print(lab)
   print(paste("good.path", good.path))
-    print(paste("good.path b0", dir.exists(b0) ))
   # if it's a good path, use it
   if (good.path==T & b1!="/" & b1!="/0" & b1!=roots){ 
     if (lab=="GuiDirSave"){

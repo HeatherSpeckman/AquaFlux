@@ -1,6 +1,7 @@
 .brute.combine= function(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep,
                          min.number.of.columns.in.a.data.file, start.a.data.file){
   file.list = list.files( recursive=T)
+  print("in .brute.combine 1")
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
   k = file.list[1]
   file.started = F
@@ -41,9 +42,11 @@
 
     }
   }
-  file.to.import
-
   if (exists(file.to.import)==T){rm(file.to.import)}
+    print("in .brute.combine 2")
+
+  ### export 
+  d
 }
 
 .combine.site.data = function(wd,jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, 
@@ -52,7 +55,7 @@
   ###### combine site data: combines all the files from one site into one master file
   setwd(wd);
   # import all the files and combine to one gaint thing
-  .brute.combine(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, 
+  d = .brute.combine(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, 
                  min.number.of.columns.in.a.data.file, start.a.data.file)
   # clean basics
   dim(d)

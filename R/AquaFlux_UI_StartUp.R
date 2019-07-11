@@ -20,6 +20,8 @@
   good.path = file.exists(b1)
   print("b1")
   print(b1)
+  print("lab")
+  print(lab)
   # if it's a good path, use it
   if (good.path==T & b1!="/" & b1!="/0"){ 
     if (lab=="GuiDirSave"){

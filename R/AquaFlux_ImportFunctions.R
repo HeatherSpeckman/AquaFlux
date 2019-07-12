@@ -27,8 +27,7 @@
       if (  file.started == T ) { 
         names(x)=names.dx # name it
          d= rbind(d,x)
-      }
-      ##### if you haven't yet started a file
+      } else {
       if (  file.started == F ) { 
         
                 ########## get the names
@@ -42,7 +41,7 @@
 
         # bind it
         d = x;
-        file.started == T
+        file.started = T
       }  
       print(paste("file.started", file.started  ))
       print(paste("j", j  ))

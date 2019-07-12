@@ -77,7 +77,7 @@
 }
 
 .import.met.data = function(v){
-      print("in .import.met.data 3") 
+      print("in .import.met.data 1") 
 
   # intialize
   setwd(v$met.dir)
@@ -130,8 +130,9 @@
       x = d.merge
     }
   }
-  d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
           print("in .import.raw.dT.data 3") 
+  d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
+          print("in .import.raw.dT.data 4") 
 
   d.merge
 }

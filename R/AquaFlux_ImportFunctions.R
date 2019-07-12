@@ -137,10 +137,19 @@
 }
 
 .read.in.raw.data = function(v){
+  print(".read.in.raw.data 1")
   v$raw.met.data = .import.met.data(v)
+    print(".read.in.raw.data 2")
+
   v$raw.dT.data =  .import.raw.dT.data(v)
+    print(".read.in.raw.data 3")
+
   # export
   v$n.met.data = names(v$raw.met.data)
+    print(".read.in.raw.data 4")
+
   v$n.dT.data = names(v$raw.dT.data)
+    print(".read.in.raw.data 5")
+
   v
 }

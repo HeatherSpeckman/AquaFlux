@@ -38,7 +38,7 @@
         d = x;
         file.started == T
       }
-
+      print(paste("dim d", dim(d))
     }
   }
   if (exists(file.to.import)==T){rm(file.to.import)}

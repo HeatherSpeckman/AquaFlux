@@ -130,9 +130,9 @@
       x = d.merge
     }
   }
-        print("in .import.raw.dT.data 3") 
-
   d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
+          print("in .import.raw.dT.data 3") 
+
   d.merge
 }
 

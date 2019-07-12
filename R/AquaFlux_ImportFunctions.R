@@ -1,3 +1,4 @@
+
 .brute.combine= function(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep,
                          min.number.of.columns.in.a.data.file, start.a.data.file){
   file.list = list.files( recursive=T)
@@ -8,29 +9,21 @@
   for (k in file.list){
     print(paste("file.started",file.started))
     j=j+1
-    file.to.import <<- k;
-    # j=j+1; setTxtProgressBar(pb, j) # update progress bar
-    
+    file.to.import <<- k;    
     #### read in the data
     x=read.delim(k,sep=delim.sep,
                  stringsAsFactor=F,header=F,
                  skip=number.of.lines.before.data,
-                 na.strings = c("NA","NAN") )
-    dim(x)
-    
+                 na.strings = c("NA","NAN") )    
     
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
-      
-      
       ###### save the column names and bind together.      
       if (  file.started == T ) { 
         names(x)=names.dx # name it
-         d= rbind(d,x)
-      } else {
-      if (  file.started == F ) { 
-        
-                ########## get the names
+        d= rbind(d,x)
+      } else { 
+        ########## get the names
         d.x=read.delim(k,sep=delim.sep,
                        stringsAsFactor=F,header=T,
                        skip=number.of.before.headers ,
@@ -38,10 +31,10 @@
         # save the names
         names(x)=names(d.x)
         names.dx=names(d.x)
-
+        
         # bind it
-        d = x;
-        file.started = T
+        d <- x;
+        file.started <- T
       }  
       print(paste("file.started", file.started  ))
       print(paste("j", j  ))
@@ -52,6 +45,9 @@
   ### export 
   d
 }
+
+
+
 
 .combine.site.data = function(wd,jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, 
                               min.number.of.columns.in.a.data.file, start.a.data.file){

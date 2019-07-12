@@ -195,8 +195,13 @@
 }
 
 .check.if.read.in.raw = function(v){
+  print(".check.if.read.in.raw 1")
   if (exists("v$raw.met.data")==F){ v$raw.met.data = .import.met.data(v);  }
+    print(".check.if.read.in.raw 2")
+
   if (exists("v$raw.dT.data")==F){ v$raw.dT.data  = .import.raw.dT.data(v); }
+    print(".check.if.read.in.raw 3")
+
   # v$raw.dT.data
   v
 } # checked

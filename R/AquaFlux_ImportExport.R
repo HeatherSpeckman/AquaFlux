@@ -166,13 +166,20 @@
 #######################################################
 .finish.importing = function(v){
   setwd(v$save.dir)
+  print(".finish.importing 1")
   # get the raw data and it's time vectors
   v = .polish.raw.import(v)
+    print(".finish.importing 2")
+
   setwd(v$save.dir)
   # get small stuff
   v = .import.small.data(v)
+    print(".finish.importing 3")
+
   # merge old and new
   v = .merge.old.and.new.dT.data(v)
+    print(".finish.importing 4")
+
   # export
   v
 }

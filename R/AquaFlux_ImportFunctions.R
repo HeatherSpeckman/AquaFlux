@@ -23,11 +23,15 @@
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
       
       
-      ###### save the column names (if you don't have them, get them)
+      ###### save the column names and bind together.      
       if (  file.started == T ) { 
         names(x)=names.dx # name it
-      } else {
-        ########## get the names
+         d= rbind(d,x)
+      }
+      ##### if you haven't yet started a file
+      if (  file.started == F ) { 
+        
+                ########## get the names
         d.x=read.delim(k,sep=delim.sep,
                        stringsAsFactor=F,header=T,
                        skip=number.of.before.headers ,
@@ -35,15 +39,12 @@
         # save the names
         names(x)=names(d.x)
         names.dx=names(d.x)
-      }
-      
-      ############# merge data
-      if (  file.started == T ) { 
-        d= rbind(d,x)
-      } else {
+
+        # bind it
         d = x;
         file.started == T
-      }
+      }  
+      print(paste("file.started", file.started  ))
       print(paste("j", j  ))
       print(paste("dim d", nrow(d)))
     }

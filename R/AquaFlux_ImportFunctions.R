@@ -51,6 +51,7 @@
 
 .combine.site.data = function(wd,jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep, 
                               min.number.of.columns.in.a.data.file, start.a.data.file){
+  print("in .combine.site.data 1") 
   ######################
   ###### combine site data: combines all the files from one site into one master file
   setwd(wd);
@@ -61,17 +62,23 @@
   dim(d)
   d$RECORD<- NULL
   # clear null TIMESTAMPS
+    print("in .combine.site.data 2") 
+
   have.TIMESTAMP.col = sum( names(d)=="TIMESTAMP")>0
   if (have.TIMESTAMP.col){
     d= d[ is.na(d$TIMESTAMP)==F, ] # missing time stamp
   }
   d= d[ duplicated(d)==F, ]; dim(d) # delete obvious duplicates
   d=d[ , is.na(names(d))==F ]
+    print("in .combine.site.data 3") 
+
   # export
   d
 }
 
 .import.met.data = function(v){
+      print("in .import.met.data 3") 
+
   # intialize
   setwd(v$met.dir)
   wd = v$met.dir
@@ -89,6 +96,8 @@
 }
 
 .import.raw.dT.data = function(v){
+        print("in .import.raw.dT.data 1") 
+
   ####### Handle raw data: this command combines ALL RAW data and makes it pretty
   # get data from each site and combine them into a dataframe named "d.merge"
   jj=1 # length(site.names)  1:length(site.names)
@@ -105,6 +114,7 @@
                            v$min.number.of.columns.in.a.data.file, 
                           start.a.data.file=0)
     dim(d);
+        print("in .import.raw.dT.data 2") 
 
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name
     name.x =  paste( sn ,"TIMESTAMP",sep="_")
@@ -120,6 +130,7 @@
       x = d.merge
     }
   }
+        print("in .import.raw.dT.data 3") 
 
   d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
   d.merge

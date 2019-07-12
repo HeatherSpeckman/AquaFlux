@@ -4,41 +4,48 @@
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
   k = file.list[1]
   file.started = F
+  j=1
   for (k in file.list){
+    print(paste("file.started",file.started))
+    j=j+1
     file.to.import <<- k;
     # j=j+1; setTxtProgressBar(pb, j) # update progress bar
+    
+    #### read in the data
     x=read.delim(k,sep=delim.sep,
                  stringsAsFactor=F,header=F,
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )
     dim(x)
+    
+    
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
-      # name them
+      
+      
+      ###### save the column names (if you don't have them, get them)
       if (  file.started == T ) { 
         names(x)=names.dx # name it
       } else {
-        # get the names
+        ########## get the names
         d.x=read.delim(k,sep=delim.sep,
                        stringsAsFactor=F,header=T,
                        skip=number.of.before.headers ,
                        na.strings = c("NA","NAN") )
-        head(d.x);
         # save the names
         names(x)=names(d.x)
         names.dx=names(d.x)
-
-
       }
-
-      # if merge them
+      
+      ############# merge data
       if (  file.started == T ) { 
         d= rbind(d,x)
       } else {
         d = x;
         file.started == T
       }
-      print(paste("dim d", dim(d)))
+      print(paste("j", j  ))
+      print(paste("dim d", nrow(d)))
     }
   }
   if (exists(file.to.import)==T){rm(file.to.import)}

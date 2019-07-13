@@ -69,9 +69,6 @@
     ylim[1] = min( possible.low, na.rm=T) # get the lowest
     ylim[2] = max( possible.high, na.rm=T) # get the highest
   }
-    print(".plot.get.ylim 3")
-print(is.infinite(ylim[1])==T)
-  print(is.na(ylim[1])==T)
   # canidate four: 0,1 (if missing all others):
   if ( is.infinite(ylim[1])==T | is.na(ylim[1])==T ){
     # get points

@@ -44,7 +44,9 @@
   ##### Need to find the largest y bounds
   # canidate one:
   print(".plot.get.ylim 1")
-  ylim = range(y, na.rm=T)
+  if (sum(is.na(y)==F)>2){
+    ylim = range(y, na.rm=T)
+  }
   # canidate two: raw  (if applicable):
   if ( is.dT==T & sum(extra.var=="raw")>0) {
     y.raw.bound = range( v$raw.data[v$cc.time,v$tree.number] , na.rm=T )

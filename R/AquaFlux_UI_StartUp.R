@@ -12,8 +12,6 @@
 #####################################################################
 
 .test.GuiDir = function(a, lab, v, roots){
-  print("")
-  print("new go - lilo10")
   # get the file path
   b = unlist(a[1])
   b0 = paste0(b, collapse = "/")

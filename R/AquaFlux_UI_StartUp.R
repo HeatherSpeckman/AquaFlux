@@ -20,9 +20,6 @@
   b1 = paste0(roots,b0) #"~/"  
   # test if it's a good path
   good.path = file.exists(b1)
-  print("b1")
-  print(b1)
-  print(paste("good.path", good.path))
   # if it's a good path, use it
   if (good.path==T & b1!="/" & b1!="/0" & b1!=roots){ 
     if (lab=="GuiDirSave"){

@@ -49,7 +49,8 @@
 .auto.save.check = function(v){ # this will auto-save your work every 5 turns
   current.time = Sys.time()
   time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
-  if ( time.diff > 5){
+  if ( time.diff > 1){
+    print("auto saving  very frequently")
     time.last.save = .save.AquaFlux(v)
   } else {
     time.last.save = v$time.last.save

@@ -50,7 +50,6 @@
   current.time = Sys.time()
   time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
   if ( time.diff > 2){
-    print("auto saving  very frequently")
     time.last.save = .save.AquaFlux(v)
   } else {
     time.last.save = v$time.last.save

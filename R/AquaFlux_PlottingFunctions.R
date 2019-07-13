@@ -171,12 +171,12 @@
   start.time = Sys.time()
   v$time.last.save = .auto.save.check(v)
   LDate.local = v$LDate.local
+  have.data = sum(is.na(y)==F)>2 &  sum(is.infinite(y)==F)>2
 
   # get colors
   if (sum(v$pick.plot.options=="use.time.col")>0 ){  col = v$time.col[v$cc.time];  } else {  col=1; }
 
   # do you have data?
-  have.data = sum(is.na(y)==F)>2 &  sum(is.infinite(y)==F)>2
   # get Tmax data
   Tmax.data.local = .Tmax.get.data(v$tree.name, v$Tmax.data, LDate.local)
 

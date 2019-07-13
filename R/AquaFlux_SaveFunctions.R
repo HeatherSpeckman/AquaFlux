@@ -49,8 +49,8 @@
 .auto.save.check = function(v){ 
   print("in .auto.save.check")
   current.time = Sys.time()
-  print(paste("time.diff",time.diff))
   time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
+  print(paste("time.diff",time.diff))
   if ( time.diff > 1){
     print("auto saving  very frequently")
     time.last.save = .save.AquaFlux(v)

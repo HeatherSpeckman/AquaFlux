@@ -33,7 +33,7 @@
     max.DOY = 367,
     min.DOY.global = 0,
     max.DOY.global = 367,
-    number.of.saves.to.keep = 10,
+    number.of.saves.to.keep = 20,
     ####################### opening blank values these are advance options
     max.gap.length = 8,
     min.number.of.columns.in.a.data.file = 2,

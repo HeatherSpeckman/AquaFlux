@@ -440,7 +440,7 @@
   output$Aqaqc_Delete <- renderUI({ if ( v$processOption == 'autoqaqc') { shiny::actionButton(inputId="b.AutoQAQC.del", label="Delete") }})
 
   # v$processOption == 'manqaqc
-  output$Mqaqc_1orAll <- renderUI({ if ( v$processOption == 'manqaqc') { shiny::checkboxGroupInput("qaqc.1orAll", label=" ", choices  = c("Apply to *ALL* trees-- can NOT 'undo delete' " = "all"))   }})
+ # output$Mqaqc_1orAll <- renderUI({ if ( v$processOption == 'manqaqc') { shiny::checkboxGroupInput("qaqc.1orAll", label=" ", choices  = c("Apply to *ALL* trees-- can NOT 'undo delete' " = "all"))   }})
   output$Mqaqc_manual <- renderUI({ if ( v$processOption == 'manqaqc') { shiny::radioButtons( "qaqc.manual", "Manual QAQC Options:", .qaqc.button.vector,selected = "none",inline=F) }})
 
   # v$processOption == 'tmax

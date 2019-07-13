@@ -43,7 +43,6 @@
 .plot.get.ylim = function(y, extra.var, is.dT, v, Tmax.data.local){
   ##### Need to find the largest y bounds
   # canidate one:
-  print(".plot.get.ylim 1")
       ylim = c(0,0)
   
   if (sum(is.na(y)==F)>2){
@@ -58,7 +57,6 @@
     ylim[1] = min( possible.low, na.rm=T) # get the lowest
     ylim[2] = max( possible.high, na.rm=T) # get the highest
   }
-    print(".plot.get.ylim 2")
 
   # canidate three: Tmax (if applicable):
   if ( is.dT==T & sum(extra.var=="Tmax")>0 &
@@ -80,7 +78,6 @@ print(is.infinite(ylim[1])==T)
     ylim[1] = 0
     ylim[2] = 1
   }
-    print(".plot.get.ylim 4")
 
   ylim
 }

@@ -49,6 +49,7 @@
 .auto.save.check = function(v){ 
   print("in .auto.save.check")
   current.time = Sys.time()
+  print(paste("time.diff",time.diff))
   time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
   if ( time.diff > 1){
     print("auto saving  very frequently")

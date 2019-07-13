@@ -46,7 +46,8 @@
   time.last.save
 }
 
-.auto.save.check = function(v){ # this will auto-save your work every 5 turns
+.auto.save.check = function(v){ 
+  print("in .auto.save.check")
   current.time = Sys.time()
   time.diff = difftime( current.time, v$time.last.save, units=c("mins"))
   if ( time.diff > 1){

@@ -166,19 +166,14 @@
 #######################################################
 .finish.importing = function(v){
   setwd(v$save.dir)
-  print(".finish.importing 1")
   # get the raw data and it's time vectors
   v = .polish.raw.import(v)
-    print(".finish.importing 2")
-
   setwd(v$save.dir)
   # get small stuff
   v = .import.small.data(v)
-    print(".finish.importing 3")
 
   # merge old and new
   v = .merge.old.and.new.dT.data(v)
-    print(".finish.importing 4")
 
   # export
   v
@@ -202,13 +197,8 @@
 }
 
 .check.if.read.in.raw = function(v){
-  print(".check.if.read.in.raw 1")
   if (exists("v$raw.met.data")==F){ v$raw.met.data = .import.met.data(v);  }
-    print(".check.if.read.in.raw 2")
-
   if (exists("v$raw.dT.data")==F){ v$raw.dT.data  = .import.raw.dT.data(v); }
-    print(".check.if.read.in.raw 3")
-
   # v$raw.dT.data
   v
 } # checked

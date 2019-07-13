@@ -232,18 +232,27 @@
   pick.bottun
 }
 .plot.sapflux = function(v){
+  print("in .plot.sapflux")
   if (sum(v$pick.plot.options=="flux")>0){
+      print("in .plot.sapflux 2")
+
     # prep
     mes = "No Sap Flux Data for this window"
     y = .sapflux.calc.local(v,v$tree.name)
+    print("y summary")
+    print(summary(y))
     xlab = "Day of Year"
     ylab = "Sap Flux (g m-2 s-1)"
     main.lab = paste("Sap Flux",v$tree.name)
     is.dT=F
     # plot
+          print("in .plot.sapflux 3")
+
     pick.bottun = .plot.basic(v, is.dT, mes, y,
                               xlab,ylab, main.lab)
   }
+        print("in .plot.sapflux 4")
+
 }
 ######################################################
 # move.over

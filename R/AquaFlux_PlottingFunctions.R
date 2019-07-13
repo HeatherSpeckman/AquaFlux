@@ -137,7 +137,7 @@
 .plot.Tmax = function(LDate.local, extra.var, is.dT, Tmax.data.local){
   # did you want to plot AirTC?
   if ( sum(extra.var=="Tmax")>0 & is.dT==T  & Tmax.data.local$have.Tmax==T) {  #
-    if (sum(is.na(Tmax.data.local$line)==F)>0){
+    if (sum(is.na(Tmax.data.local$line)==F)>2){
       lines(LDate.local, Tmax.data.local$line, lwd=4, col= "green")
       points(Tmax.data.local$points$LDate, Tmax.data.local$points$Tmax, cex=3, col="forestgreen", pch=19)
     }

@@ -245,8 +245,6 @@ print(is.infinite(ylim[1])==T)
     # prep
     mes = "No Sap Flux Data for this window"
     y = .sapflux.calc.local(v,v$tree.name)
-    print("y summary")
-    print(summary(y))
     xlab = "Day of Year"
     ylab = "Sap Flux (g m-2 s-1)"
     main.lab = paste("Sap Flux",v$tree.name)

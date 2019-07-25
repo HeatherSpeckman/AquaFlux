@@ -44,7 +44,8 @@
 
     Tmax.data.points = Tmax.data
               print(".export.Tmax 3.2")
-
+print("dim dT.data")
+    print(dim(dT.data))
     #########
     # make line data
     for (i in 1:ncol(dT.data)){

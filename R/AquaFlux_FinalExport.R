@@ -7,7 +7,6 @@
 
 .export.sapflux = function(v){
   sapflux.data = v$dT.data
-    print(".export.sapflux 1")
   for (tree.name in v$sapflux.names){
     v$tree.name = tree.name
     v$tree.number = match(tree.name,names(sapflux.data))
@@ -15,60 +14,39 @@
     y = .sapflux.calc.local(v,tree.name)
     sapflux.data[,v$tree.number] = y
   }
-    print(".export.sapflux 2")
   # make blank sheet
   y = v$met.data
   z = data.frame(TIMESTAMP=y$TIMESTAMP,LDate=y$LDate, sapflux.data)
-    print(".export.sapflux 3")
-
   # export
   .save.one.file( z, "Sap flux data- Exported", is.Tmax=F, v)
   sapflux.data <<- z
   sapflux.data
 }
 .export.Tmax = function(Tmax.data,LDate, sapflux.names, dT.data, v){
-  print(".export.Tmax 1")
   if (nrow(Tmax.data)>1){
-      print(".export.Tmax 2")
-
     Tmax.data = Tmax.data[is.na(Tmax.data$Name)==F,]
     ########## points
     # make it in the right order
     right.order = order(Tmax.data$Name,Tmax.data$LDate)
     Tmax.data = Tmax.data[right.order,]
-      print(".export.Tmax 3")
-
     # export points
     .save.one.file( Tmax.data, "Tmax points- Exported", is.Tmax=T, v)
-          print(".export.Tmax 3.1")
-
     Tmax.data.points = Tmax.data
-              print(".export.Tmax 3.2")
     Tmax.data.line = matrix(nrow=nrow(dT.data), ncol=ncol(dT.data) )
-                  print(".export.Tmax 3.2.1")
-
     Tmax.data.line = as.data.frame(Tmax.data.line)
-                      print(".export.Tmax 3.2.2")
-
     names(Tmax.data.line) = names(dT.data)
-              print(".export.Tmax 3.3")
-
     # get lines
     for (tree.name in v$sapflux.names){
       tree.number = match(tree.name,names(v$dT.data))
       Tmax.data.local = .Tmax.get.data(tree.name, Tmax.data, LDate)
       Tmax.data.line[,tree.number] = Tmax.data.local$line
     }
-      print(".export.Tmax 4")
-
     # export lines
     .save.one.file( Tmax.data.line, "Tmax baseline- Exported", is.Tmax=F, v)
     Tmax.data.line = Tmax.data.line
   } else {
     Tmax.data.line = NA
   }
-    print(".export.Tmax 5")
-
   # kick out Tmax.data.line
   Tmax.data.line
 }
@@ -112,35 +90,21 @@
   }
 }
 .export.final.data = function(v){
-  print(".export.final.data 1")
   # normal save
   v$min.DOY = v$min.DOY.global
   v$max.DOY = v$max.DOY.global
   v$time.last.save = .save.AquaFlux(v)
-    print(".export.final.data 2")
 
   ################### export each data set to csv and base R
   setwd(v$final.dir)
   sapflux.data = .export.sapflux(v)
-    print(".export.final.data 3")
-
   Tmax.data.line = .export.Tmax(v$Tmax.data,v$LDate, v$sapflux.names, v$dT.data, v)
-    print(".export.final.data 4")
-
   .export.raw(v)
-    print(".export.final.data 5")
-
   .export.dT(v)
-    print(".export.final.data 5")
-
   .export.met(v)
   ######### export graphs
   setwd(v$graph.dir)
-    print(".export.final.data 7")
-
   .export.graphs(v,sapflux.data,Tmax.data.line)
-    print(".export.final.data 8")
-
   print("Data exported")
   # report
   #.export.message(v$final.dir,v$graph.dir)

@@ -44,14 +44,13 @@
 
     Tmax.data.points = Tmax.data
               print(".export.Tmax 3.2")
-print("dim dT.data")
-    print(dim(dT.data))
-    #########
-    # make line data
- #   for (i in 1:ncol(dT.data)){
- #     print(paste(i,names(dT.data)[i],class(dT.data)[,i] ))
- #     }
-    Tmax.data.line = dT.data * NA
+    Tmax.data.line = matrix(nrow=nrow(dT.data), ncol=ncol(dT.data) )
+                  print(".export.Tmax 3.2.1")
+
+    Tmax.data.line = as.data.frame(Tmax.data.line)
+                      print(".export.Tmax 3.2.2")
+
+    names(Tmax.data.line) = names(dT.data)
               print(".export.Tmax 3.3")
 
     # get lines

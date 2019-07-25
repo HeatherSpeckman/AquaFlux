@@ -406,6 +406,7 @@
   #             Export   ##
   ##############################################
   observeEvent(input$b.export,{
+    print("you hit input$b.export")
     .export.final.data(v)
     v$export.mes.1 = paste("At",Sys.time(),"AquaFlux data was exported:")
     v$export.mes.2 = paste("CSV data saved to:", v$final.dir)

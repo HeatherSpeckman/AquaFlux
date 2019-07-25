@@ -27,15 +27,20 @@
   sapflux.data
 }
 .export.Tmax = function(Tmax.data,LDate, sapflux.names, dT.data, v){
+  print(".export.Tmax 1")
   if (nrow(Tmax.data)>1){
+      print(".export.Tmax 2")
+
     Tmax.data = Tmax.data[is.na(Tmax.data$Name)==F,]
     ########## points
     # make it in the right order
     right.order = order(Tmax.data$Name,Tmax.data$LDate)
     Tmax.data = Tmax.data[right.order,]
+      print(".export.Tmax 3")
+
     # export points
     .save.one.file( Tmax.data, "Tmax points- Exported", is.Tmax=T, v)
-    Tmax.data.points <<- Tmax.data
+    Tmax.data.points = Tmax.data
     #########
     # make line data
     Tmax.data.line = dT.data * NA
@@ -45,12 +50,16 @@
       Tmax.data.local = .Tmax.get.data(tree.name, Tmax.data, LDate)
       Tmax.data.line[,tree.number] = Tmax.data.local$line
     }
+      print(".export.Tmax 4")
+
     # export lines
     .save.one.file( Tmax.data.line, "Tmax baseline- Exported", is.Tmax=F, v)
-    Tmax.data.line <<- Tmax.data.line
+    Tmax.data.line = Tmax.data.line
   } else {
     Tmax.data.line = NA
   }
+    print(".export.Tmax 5")
+
   # kick out Tmax.data.line
   Tmax.data.line
 }

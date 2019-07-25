@@ -40,10 +40,16 @@
 
     # export points
     .save.one.file( Tmax.data, "Tmax points- Exported", is.Tmax=T, v)
+          print(".export.Tmax 3.1")
+
     Tmax.data.points = Tmax.data
+              print(".export.Tmax 3.2")
+
     #########
     # make line data
     Tmax.data.line = dT.data * NA
+              print(".export.Tmax 3.3")
+
     # get lines
     for (tree.name in v$sapflux.names){
       tree.number = match(tree.name,names(v$dT.data))

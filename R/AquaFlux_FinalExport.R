@@ -7,6 +7,7 @@
 
 .export.sapflux = function(v){
   sapflux.data = v$dT.data
+    print(".export.sapflux 1")
   for (tree.name in v$sapflux.names){
     v$tree.name = tree.name
     v$tree.number = match(tree.name,names(sapflux.data))
@@ -14,9 +15,12 @@
     y = .sapflux.calc.local(v,tree.name)
     sapflux.data[,v$tree.number] = y
   }
+    print(".export.sapflux 2")
   # make blank sheet
   y = v$met.data
   z = data.frame(TIMESTAMP=y$TIMESTAMP,LDate=y$LDate, sapflux.data)
+    print(".export.sapflux 3")
+
   # export
   .save.one.file( z, "Sap flux data- Exported", is.Tmax=F, v)
   sapflux.data <<- z
@@ -90,20 +94,35 @@
   }
 }
 .export.final.data = function(v){
+  print(".export.final.data 1")
   # normal save
   v$min.DOY = v$min.DOY.global
   v$max.DOY = v$max.DOY.global
   v$time.last.save = .save.AquaFlux(v)
+    print(".export.final.data 2")
+
   ################### export each data set to csv and base R
   setwd(v$final.dir)
   sapflux.data = .export.sapflux(v)
+    print(".export.final.data 3")
+
   Tmax.data.line = .export.Tmax(v$Tmax.data,v$LDate, v$sapflux.names, v$dT.data, v)
+    print(".export.final.data 4")
+
   .export.raw(v)
+    print(".export.final.data 5")
+
   .export.dT(v)
+    print(".export.final.data 5")
+
   .export.met(v)
   ######### export graphs
   setwd(v$graph.dir)
+    print(".export.final.data 7")
+
   .export.graphs(v,sapflux.data,Tmax.data.line)
+    print(".export.final.data 8")
+
   print("Data exported")
   # report
   #.export.message(v$final.dir,v$graph.dir)

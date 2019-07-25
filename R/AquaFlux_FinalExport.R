@@ -47,6 +47,9 @@
 
     #########
     # make line data
+    for (i in 1:ncol(dT.data)){
+      print(paste(i,names(dT.data)[i],class(dT.data)[,i] ))
+      }
     Tmax.data.line = dT.data * NA
               print(".export.Tmax 3.3")
 

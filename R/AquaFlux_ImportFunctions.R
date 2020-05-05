@@ -8,12 +8,23 @@
   j=1
   for (k in file.list){
     j=j+1
-    file.to.import <<- k;    
+    file.to.import = k;   
+    
+    # africa
+    print("in .brute.combine 1")
+    print("file.to.import")
+    print(file.to.import)
+    
     #### read in the data
     x=read.delim(k,sep=delim.sep,
                  stringsAsFactor=F,header=F,
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )    
+    
+        # africa
+    print("in .brute.combine 2")
+    print("head x")
+    print(head(x))
     
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){

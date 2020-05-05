@@ -51,9 +51,10 @@
   if (exists(file.to.import)==T){rm(file.to.import)}
   ### export 
           # africa
-    print("in AquaFlux_ImportFunctions.R .brute.combine 3")
-    print("head d")
-    print(head(d))
+  print("LALALAL!")
+  print("in AquaFlux_ImportFunctions.R .brute.combine 3")
+  print("head d")
+  print(head(d))
     
   d
 }

@@ -11,7 +11,7 @@
     file.to.import = k;   
     
     # africa
-    print("in .brute.combine 1")
+    print("in AquaFlux_ImportFunctions.R .brute.combine 1")
     print("file.to.import")
     print(file.to.import)
     
@@ -22,7 +22,7 @@
                  na.strings = c("NA","NAN") )    
     
         # africa
-    print("in .brute.combine 2")
+    print("in AquaFlux_ImportFunctions.R .brute.combine 2")
     print("head x")
     print(head(x))
     
@@ -50,6 +50,11 @@
   }
   if (exists(file.to.import)==T){rm(file.to.import)}
   ### export 
+          # africa
+    print("in AquaFlux_ImportFunctions.R .brute.combine 3")
+    print("head d")
+    print(head(d))
+    
   d
 }
 

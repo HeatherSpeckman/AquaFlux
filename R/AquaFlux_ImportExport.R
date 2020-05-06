@@ -218,11 +218,19 @@
 
 
 .polish.raw.import = function(v){
+  #africa
+  print(".polish.raw.import 1")
+  print(head(v$raw.dT.data))
+  
   # This function handles your raw data.
   # No data-data taken from v (besides metadata)
 
   ### make sure you have raw data
   v = .check.if.read.in.raw(v)
+  #africa
+  print(".polish.raw.import 2")
+  print(head(v$raw.dT.data))
+ 
   v$raw.dT.data$JDate = NULL
   #### make time vectors: LDate, PDate, time.col.  Make sure it's 1 year, properly formated
   v = .handle.raw.time.import(v)

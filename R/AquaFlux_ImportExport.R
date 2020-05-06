@@ -198,7 +198,18 @@
 
 .check.if.read.in.raw = function(v){
   if (exists("v$raw.met.data")==F){ v$raw.met.data = .import.met.data(v);  }
-  if (exists("v$raw.dT.data")==F){ v$raw.dT.data  = .import.raw.dT.data(v); }
+  if (exists("v$raw.dT.data")==F){ 
+    #africa
+    print(".check.if.read.in.raw  v$raw.dT.data 1")
+    print(head(v$raw.dT.data))
+    
+    v$raw.dT.data  = .import.raw.dT.data(v); }
+  
+      #africa
+    print(".check.if.read.in.raw  v$raw.dT.data 2")
+    print(head(v$raw.dT.data))
+
+  
   # v$raw.dT.data
   v
 } # checked

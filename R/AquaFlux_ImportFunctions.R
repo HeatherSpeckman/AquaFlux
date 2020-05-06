@@ -97,7 +97,7 @@
                                 v$min.number.of.columns.in.a.data.file,
                                start.a.data.file=0)
   # clean up
-  rm(file.to.import,envir = .GlobalEnv)
+  #rm(file.to.import,envir = .GlobalEnv)
   # export
   met.data
 }

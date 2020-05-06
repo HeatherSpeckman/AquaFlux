@@ -103,6 +103,10 @@
 }
 
 .import.raw.dT.data = function(v){ 
+  #africa
+  print("in .import.raw.dT.data 1")
+  print(head(v$raw.dT.dat))
+  
   ####### Handle raw data: this command combines ALL RAW data and makes it pretty
   # get data from each site and combine them into a dataframe named "d.merge"
   jj=1 # length(site.names)  1:length(site.names)
@@ -118,6 +122,12 @@
                            v$delim.sep,
                            v$min.number.of.columns.in.a.data.file, 
                           start.a.data.file=0)
+    
+        #africa
+  print("in .import.raw.dT.data 2")
+  print(head(d))
+
+    
     dim(d);
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name
     name.x =  paste( sn ,"TIMESTAMP",sep="_")
@@ -133,6 +143,10 @@
       x = d.merge
     }
   }
+    #africa
+  print("in .import.raw.dT.data 3")
+  print(head(d.merge))
+  
   d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
   d.merge
 }

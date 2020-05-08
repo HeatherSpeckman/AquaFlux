@@ -127,10 +127,6 @@
 .read.in.raw.data = function(v){
   v$raw.met.data = .import.met.data(v)
   v$raw.dT.data =  .import.raw.dT.data(v)
-  # africa
-  print("in .read.in.raw.data 1")
-    print("v$raw.dT.data")
-  print(v$raw.dT.data)
   # export 
   v$n.met.data = names(v$raw.met.data)
   v$n.dT.data = names(v$raw.dT.data)

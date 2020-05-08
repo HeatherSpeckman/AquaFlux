@@ -154,7 +154,8 @@
 
 .convert.dT.to.C=function(dT.data,v,sapflux.i){
   print("in .convert.dT.to.C 1") #africa
-  print("v$sapflux.col.i") #africa
+  print(v$sapflux.col.i) #africa
+  print(v$dT.units) #africa
   sapflux.i = v$sapflux.col.i
   dT.units = v$dT.units
   if (dT.units=="C"){  dT.data = dT.data}

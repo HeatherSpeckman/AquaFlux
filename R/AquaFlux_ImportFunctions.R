@@ -1,6 +1,6 @@
 
 .brute.combine= function(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep,
-                         min.number.of.columns.in.a.data.file, start.a.data.file){
+                         min.number.of.columns.in.a.data.file, start.a.data.file){ 
   print("africa 2:01")
   file.list = list.files( recursive=T)
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar

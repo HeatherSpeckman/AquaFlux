@@ -184,16 +184,26 @@
 # raw import
 #######################################################
 .handle.raw.time.import = function(v){
-  #### make it the right format and only get 1 year
+  #### make it the right format and only get 1 year  
   v$raw.met.data = .pull.out.1.year(d=v$raw.met.data, v, this.name=v$met.ts.name)
   v$raw.dT.data = .pull.out.1.year(d=v$raw.dT.data, v, this.name=v$dT.ts.name)
+    print(".handle.raw.time.import 1")#africa
+  print(head(v$raw.dT.data))#africa
+
   # make time vectors
   v$raw.met.data = .make.PDate(v$raw.met.data)
   v$raw.dT.data = .make.PDate(v$raw.dT.data)
+    print(".handle.raw.time.import 2")#africa
+  print(head(v$raw.dT.data))#africa
+
   ## align time & clean up
   v$raw.met.data  = .align.met.data(v$raw.met.data, v$raw.dT.data, v)
+    print(".handle.raw.time.import 3")#africa
+  print(head(v$raw.dT.data))#africa
+
   v = .color.timestamp(v)
-    print("in .handle.raw.time.import 4") # africa
+  print(".handle.raw.time.import 4")#africa
+  print(head(v$raw.dT.data))#africa
 
   v
 }

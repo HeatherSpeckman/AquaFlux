@@ -86,10 +86,6 @@
 }
 
 .import.raw.dT.data = function(v){ 
-  #africa
-  print("in .import.raw.dT.data 1")
-  print(head(v$raw.dT.dat))
-  
   ####### Handle raw data: this command combines ALL RAW data and makes it pretty
   # get data from each site and combine them into a dataframe named "d.merge"
   jj=1 # length(site.names)  1:length(site.names)
@@ -121,11 +117,7 @@
       x = d.merge
     }
   }
-  
-    #africa
-  print("in .import.raw.dT.data 3")
-  print(head(d.merge))
-  
+    
   # deactivated: remove duplicated timestamps
   #d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
 

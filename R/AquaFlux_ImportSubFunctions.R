@@ -64,6 +64,7 @@
 } # checked
 
 .color.timestamp = function(v){
+  print(".color.timestamp 1")#africa
   # export important vector
   raw.dT.data = v$raw.dT.data
   v$LDate = raw.dT.data$LDate
@@ -73,6 +74,8 @@
   m = as.numeric(format(v$PDate,format="%M"))
   hour <- h/24 + m/(24*60) # hour or partail day (0.5 = noon)
   # make the time colors
+    print(".color.timestamp 2")#africa
+
   time.col=hour*NA
   time.col[ hour<=4/24 ] = "red"
   time.col[ hour>=4/24 & hour<8/24 ] = "orange"
@@ -81,6 +84,8 @@
   time.col[ hour>=16/24 & hour<20/24 ] = "blue"
   time.col[ hour>=20/24 & hour<24/24 ] = "purple"
   v$time.col = time.col
+    print(".color.timestamp 3")#africa
+
   # clean up
   raw.dT.data$PDate = NULL
   raw.dT.data$LDate = NULL

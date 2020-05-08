@@ -164,7 +164,7 @@
   if (dT.units=="F"){  dT.data[,sapflux.i]  = (dT.data[,sapflux.i] - 32) * 5/9 }
   if (dT.units=="mV"){ 
     v_mV<<-dT.data[,sapflux.i]#africa
-        print("in .convert.dT.to.C 2 tickle WORKKKKKKKK!!!!!!!") #africa
+        print("in .convert.dT.to.C 2 tickle GO!!!!!!!") #africa
     dT.data[,sapflux.i]  = .convert.mv.to.C( mV=dT.data[,sapflux.i] ) }
     print("in .convert.dT.to.C 3") #africa
   print(head(dT.data)) #africa
@@ -324,7 +324,7 @@
   v$n.dT.data = names(v$raw.dT.data)
 
   s = seq(1,length(v$n.dT.data) )
- # v$nonsapflux.columns = c(v$nonsapflux.columns, "TIMESTAMP","JDate")
+  v$nonsapflux.columns = c(v$nonsapflux.columns, "TIMESTAMP","JDate")
   nonsapflux.col.i = match(v$nonsapflux.columns, v$n.dT.data )
   v$sapflux.col.i = setdiff(s,nonsapflux.col.i)
   v$sapflux.names = setdiff(v$n.dT.data,v$nonsapflux.columns)  #names(v$n.dT.data)[v$sapflux.col.i]  

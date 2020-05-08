@@ -158,6 +158,7 @@
   print(v$dT.units) #africa
   sapflux.i = v$sapflux.col.i
   dT.units = v$dT.units
+  print(head(dT.data[,sapflux.i]))#africa
   if (dT.units=="C"){  dT.data = dT.data}
   if (dT.units=="K"){  dT.data[,sapflux.i]  = dT.data[,sapflux.i] - 273.15}
   if (dT.units=="F"){  dT.data[,sapflux.i]  = (dT.data[,sapflux.i] - 32) * 5/9 }

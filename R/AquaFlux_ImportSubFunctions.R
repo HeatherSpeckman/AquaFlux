@@ -153,21 +153,12 @@
 }
 
 .convert.dT.to.C=function(dT.data,v,sapflux.i){
-  print("in .convert.dT.to.C 1 smile") #africa
-  print(v$sapflux.col.i) #africa
-  print(v$dT.units) #africa
   sapflux.i = v$sapflux.col.i
   dT.units = v$dT.units
-  print(head(dT.data[,sapflux.i]))#africa
   if (dT.units=="C"){  dT.data = dT.data}
   if (dT.units=="K"){  dT.data[,sapflux.i]  = dT.data[,sapflux.i] - 273.15}
   if (dT.units=="F"){  dT.data[,sapflux.i]  = (dT.data[,sapflux.i] - 32) * 5/9 }
-  if (dT.units=="mV"){ 
-    v_mV<<-dT.data[,sapflux.i]#africa
-        print("in .convert.dT.to.C 2 tickle GO!!!!!!!") #africa
-    dT.data[,sapflux.i]  = .convert.mv.to.C( mV=dT.data[,sapflux.i] ) }
-    print("in .convert.dT.to.C 3") #africa
-  print(head(dT.data)) #africa
+  if (dT.units=="mV"){  dT.data[,sapflux.i]  = .convert.mv.to.C( mV=dT.data[,sapflux.i] ) }
   # export
   dT.data
 }
@@ -195,12 +186,9 @@
 #######################################################
 
 .calc.VPD = function(met.data,v){
-  print("in .calc.VPD 1")#africa
   ##### calc VPD
   AirTC = .get.airT.in.C(met.data,v)
-  print("in .calc.VPD 2")#africa
   RH = .get.RH.in.percent(met.data,v)
-    print("in .calc.VPD 3")#africa
   SVP = 610.7*10^( (7.5*AirTC) / (237.3+AirTC) ) # units Pa
   SVP = SVP / 1000 # now in kPa
   # source: http://cronklab.wikidot.com/calculation-of-vapour-pressure-deficit
@@ -208,7 +196,6 @@
   met.data$AirTC = AirTC
   met.data$VPD = VPD
   met.data$RH = RH
-    print("in .calc.VPD 4")#africa
   met.data
 }
 

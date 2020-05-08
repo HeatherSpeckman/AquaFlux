@@ -22,11 +22,6 @@
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )    
     
-        # africa
-    print("in AquaFlux_ImportFunctions.R .brute.combine 2")
-    print("head x")
-    print(head(x))
-    
     # bigger than min file columns?
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
       ###### save the column names and bind together.      
@@ -50,13 +45,7 @@
     }
   }
   if (exists(file.to.import)==T){rm(file.to.import)}
-  ### export 
-          # africa
-  print("LALALAL!")
-  print("in AquaFlux_ImportFunctions.R .brute.combine 3")
-  print("head d")
-  print(head(d))
-    
+
   d
 }
 

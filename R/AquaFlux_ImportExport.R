@@ -184,14 +184,10 @@
 # raw import
 #######################################################
 .handle.raw.time.import = function(v){
-  print("in .handle.raw.time.import 1") # africa
   #### make it the right format and only get 1 year
   v$raw.met.data = .pull.out.1.year(d=v$raw.met.data, v, this.name=v$met.ts.name)
-    print("in .handle.raw.time.import 2") # africa
-
   v$raw.dT.data = .pull.out.1.year(d=v$raw.dT.data, v, this.name=v$dT.ts.name)
   # make time vectors
-  print("in .handle.raw.time.import 3") # africa
   v$raw.met.data = .make.PDate(v$raw.met.data)
   v$raw.dT.data = .make.PDate(v$raw.dT.data)
   ## align time & clean up

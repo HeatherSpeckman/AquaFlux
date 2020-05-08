@@ -22,7 +22,7 @@
                  skip=number.of.lines.before.data,
                  na.strings = c("NA","NAN") )    
     
-    # bigger than min file columns?
+    # bigger than min file columns? 
     if (dim(x)[2]>min.number.of.columns.in.a.data.file ){
       ###### save the column names and bind together.      
       if (  file.started == T ) { 

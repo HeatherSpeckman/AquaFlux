@@ -153,12 +153,16 @@
 }
 
 .convert.dT.to.C=function(dT.data,v,sapflux.i){
+  print("in .convert.dT.to.C 1") #africa
+  print("v$sapflux.col.i") #africa
   sapflux.i = v$sapflux.col.i
   dT.units = v$dT.units
   if (dT.units=="C"){  dT.data = dT.data}
   if (dT.units=="K"){  dT.data[,sapflux.i]  = dT.data[,sapflux.i] - 273.15}
   if (dT.units=="F"){  dT.data[,sapflux.i]  = (dT.data[,sapflux.i] - 32) * 5/9 }
   if (dT.units=="mV"){ dT.data[,sapflux.i]  = .convert.mv.to.C( mV=dT.data[,sapflux.i] ) }
+    print("in .convert.dT.to.C 2") #africa
+  print(head(dT.data)) #africa
   # export
   dT.data
 }

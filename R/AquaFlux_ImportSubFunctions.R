@@ -153,7 +153,7 @@
 }
 
 .convert.dT.to.C=function(dT.data,v,sapflux.i){
-  print("in .convert.dT.to.C 1") #africa
+  print("in .convert.dT.to.C 1 smile") #africa
   print(v$sapflux.col.i) #africa
   print(v$dT.units) #africa
   sapflux.i = v$sapflux.col.i
@@ -164,7 +164,7 @@
   if (dT.units=="F"){  dT.data[,sapflux.i]  = (dT.data[,sapflux.i] - 32) * 5/9 }
   if (dT.units=="mV"){ 
     v_mV<<-dT.data[,sapflux.i]#africa
-        print("in .convert.dT.to.C 2 tickle2") #africa
+        print("in .convert.dT.to.C 2 tickle WORKKKKKKKK!!!!!!!") #africa
     dT.data[,sapflux.i]  = .convert.mv.to.C( mV=dT.data[,sapflux.i] ) }
     print("in .convert.dT.to.C 3") #africa
   print(head(dT.data)) #africa

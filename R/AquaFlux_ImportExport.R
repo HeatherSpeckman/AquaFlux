@@ -189,27 +189,17 @@
   v$raw.dT.data = .make.PDate(v$raw.dT.data)
   ## align time & clean up
   v$raw.met.data  = .align.met.data(v$raw.met.data, v$raw.dT.data, v)
-    print(".handle.raw.time.import 3")#africa
-  print(head(v$raw.dT.data))#africa
-
   v = .color.timestamp(v)
-  print(".handle.raw.time.import 4 click")#africa
-  print(head(v$raw.dT.data))#africa
-
   v
 }
 
 .check.if.read.in.raw = function(v){
   if (exists("v$raw.met.data")==F){ v$raw.met.data = .import.met.data(v);  }
-  if (exists("v$raw.dT.data")==F){ 
-    #africa
-    print(".check.if.read.in.raw  v$raw.dT.data 1")
-    print(head(v$raw.dT.data))
-    
+  if (exists("v$raw.dT.data")==F){    
     v$raw.dT.data  = .import.raw.dT.data(v); 
   }
   v
-} # checked
+}
 
 #######################################################
 # load smaller files
@@ -226,54 +216,27 @@
 
 
 .polish.raw.import = function(v){
-  #africa
-  print(".polish.raw.import 1")
-  print(head(v$raw.dT.data))
-  
   # This function handles your raw data.
   # No data-data taken from v (besides metadata)
 
   ### make sure you have raw data
   v = .check.if.read.in.raw(v)
-  #africa
-  print(".polish.raw.import 2")
-  print(head(v$raw.dT.data))
- 
   v$raw.dT.data$JDate = NULL
   #### make time vectors: LDate, PDate, time.col.  Make sure it's 1 year, properly formated
   v = .handle.raw.time.import(v)
-  
-    #africa
-  print(".polish.raw.import 3")#africa
-  print(head(v$raw.dT.data))
-  
   # get sapflux and nonsapflux i's and names
-  v = .get.sapflux.columns(v )
-    print(".polish.raw.import 4")#africa
-  
+  v = .get.sapflux.columns(v )  
   ## handle units and calc VPD
   v$raw.dT.data = .convert.dT.to.C(v$raw.dT.data,v, v$sapflux.col.i)
-    print(".polish.raw.import 5")#africa
-
   v$raw.met.data = .calc.VPD(v$raw.met.data,v)
-    print(".polish.raw.import 6")#africa
-
   ### interpolate met data & export
   v$met.data = v$raw.met.data
   v$raw.met.data = NULL
   v$met.data = .interpolate.met.data(v$met.data,v)
-    print(".polish.raw.import 7")#africa
-
   # get local 
   v$tree.number = v$sapflux.col.i[1]
-    print(".polish.raw.import 8")#africa
-
   # v = .get.local.data(v)
   # export: has time vectors, dT and met upgraded
-  
-    #africa
-  print(".polish.raw.import 9")
-  print(head(v$raw.dT.data))
   v
 }
 

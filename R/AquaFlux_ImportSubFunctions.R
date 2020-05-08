@@ -64,7 +64,6 @@
 } # checked
 
 .color.timestamp = function(v){
-  print(".color.timestamp 1")#africa
   # export important vector
   raw.dT.data = v$raw.dT.data
   v$LDate = raw.dT.data$LDate

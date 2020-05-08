@@ -247,25 +247,35 @@
   v = .handle.raw.time.import(v)
   
     #africa
-  print(".polish.raw.import 3")
+  print(".polish.raw.import 3")#africa
   print(head(v$raw.dT.data))
   
   # get sapflux and nonsapflux i's and names
   v = .get.sapflux.columns(v )
+    print(".polish.raw.import 4")#africa
+
   ## handle units and calc VPD
   v$raw.dT.data = .convert.dT.to.C(v$raw.dT.data,v, v$sapflux.col.i)
+    print(".polish.raw.import 5")#africa
+
   v$raw.met.data = .calc.VPD(v$raw.met.data,v)
+    print(".polish.raw.import 6")#africa
+
   ### interpolate met data & export
   v$met.data = v$raw.met.data
   v$raw.met.data = NULL
   v$met.data = .interpolate.met.data(v$met.data,v)
+    print(".polish.raw.import 7")#africa
+
   # get local
   v$tree.number = v$sapflux.col.i[1]
+    print(".polish.raw.import 8")#africa
+
   # v = .get.local.data(v)
   # export: has time vectors, dT and met upgraded
   
     #africa
-  print(".polish.raw.import 4")
+  print(".polish.raw.import 9")
   print(head(v$raw.dT.data))
   v
 }

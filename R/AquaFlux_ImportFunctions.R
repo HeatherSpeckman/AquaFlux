@@ -127,22 +127,14 @@
       x = d.merge
     }
   }
+  
     #africa
   print("in .import.raw.dT.data 3")
   print(head(d.merge))
-  print(d.merge$TIMESTAMP)
-  x = duplicated(d.merge$TIMESTAMP)
-  print(duplicated(d.merge$TIMESTAMP)[x] )
-  print(sum(x))
   
-  d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
-  
-      #africa
-  print("in .import.raw.dT.data 4")
-  print(head(d.merge))
-  print(d.merge$TIMESTAMP)
+  # deactivated: remove duplicated timestamps
+  #d.merge= d.merge[ duplicated(d.merge$TIMESTAMP)==F, ]
 
-  
   d.merge
 }
 

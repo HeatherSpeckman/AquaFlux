@@ -195,9 +195,12 @@
 #######################################################
 
 .calc.VPD = function(met.data,v){
+  print("in .calc.VPD 1")#africa
   ##### calc VPD
   AirTC = .get.airT.in.C(met.data,v)
+  print("in .calc.VPD 2")#africa
   RH = .get.RH.in.percent(met.data,v)
+    print("in .calc.VPD 3")#africa
   SVP = 610.7*10^( (7.5*AirTC) / (237.3+AirTC) ) # units Pa
   SVP = SVP / 1000 # now in kPa
   # source: http://cronklab.wikidot.com/calculation-of-vapour-pressure-deficit
@@ -205,6 +208,7 @@
   met.data$AirTC = AirTC
   met.data$VPD = VPD
   met.data$RH = RH
+    print("in .calc.VPD 4")#africa
   met.data
 }
 

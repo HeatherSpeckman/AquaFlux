@@ -123,11 +123,6 @@
                            v$min.number.of.columns.in.a.data.file, 
                           start.a.data.file=0)
     
-        #africa
-  print("in .import.raw.dT.data 2")
-  print(head(d))
-
-    
     dim(d);
     new.names = paste( sn ,names(d),sep="_") # re-name to include site name
     name.x =  paste( sn ,"TIMESTAMP",sep="_")

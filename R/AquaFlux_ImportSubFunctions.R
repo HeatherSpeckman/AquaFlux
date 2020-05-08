@@ -326,6 +326,12 @@
   nonsapflux.col.i = match(v$nonsapflux.columns, v$n.dT.data )
   v$sapflux.col.i = setdiff(s,nonsapflux.col.i)
   v$sapflux.names = setdiff(v$n.dT.data,v$nonsapflux.columns)  #names(v$n.dT.data)[v$sapflux.col.i]
+  
+  #africa
+  v_n.dT.data <<-v$n.dT.data
+  v_nonsapflux.columns <<-v$nonsapflux.columns
+  print("exported test stuff")
+  
   v
 }
 

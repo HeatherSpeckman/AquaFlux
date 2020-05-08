@@ -199,7 +199,7 @@
   print(head(v$raw.dT.data))#africa
 
   v = .color.timestamp(v)
-  print(".handle.raw.time.import 4")#africa
+  print(".handle.raw.time.import 4 click")#africa
   print(head(v$raw.dT.data))#africa
 
   v

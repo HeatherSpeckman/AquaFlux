@@ -239,6 +239,11 @@
   v$raw.dT.data$JDate = NULL
   #### make time vectors: LDate, PDate, time.col.  Make sure it's 1 year, properly formated
   v = .handle.raw.time.import(v)
+  
+    #africa
+  print(".polish.raw.import 3")
+  print(head(v$raw.dT.data))
+  
   # get sapflux and nonsapflux i's and names
   v = .get.sapflux.columns(v )
   ## handle units and calc VPD
@@ -252,6 +257,10 @@
   v$tree.number = v$sapflux.col.i[1]
   # v = .get.local.data(v)
   # export: has time vectors, dT and met upgraded
+  
+    #africa
+  print(".polish.raw.import 4")
+  print(head(v$raw.dT.data))
   v
 }
 

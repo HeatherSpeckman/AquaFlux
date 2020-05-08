@@ -162,8 +162,9 @@
   if (dT.units=="C"){  dT.data = dT.data}
   if (dT.units=="K"){  dT.data[,sapflux.i]  = dT.data[,sapflux.i] - 273.15}
   if (dT.units=="F"){  dT.data[,sapflux.i]  = (dT.data[,sapflux.i] - 32) * 5/9 }
-    print("in .convert.dT.to.C 2") #africa
   if (dT.units=="mV"){ 
+    v_mV=dT.data[,sapflux.i]#africa
+        print("in .convert.dT.to.C 2") #africa
     dT.data[,sapflux.i]  = .convert.mv.to.C( mV=dT.data[,sapflux.i] ) }
     print("in .convert.dT.to.C 3") #africa
   print(head(dT.data)) #africa

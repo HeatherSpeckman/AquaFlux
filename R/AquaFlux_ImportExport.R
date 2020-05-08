@@ -203,14 +203,8 @@
     print(".check.if.read.in.raw  v$raw.dT.data 1")
     print(head(v$raw.dT.data))
     
-    v$raw.dT.data  = .import.raw.dT.data(v); }
-  
-      #africa
-    print(".check.if.read.in.raw  v$raw.dT.data 2")
-    print(head(v$raw.dT.data))
-
-  
-  # v$raw.dT.data
+    v$raw.dT.data  = .import.raw.dT.data(v); 
+  }
   v
 } # checked
 

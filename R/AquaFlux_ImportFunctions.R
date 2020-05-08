@@ -1,7 +1,6 @@
 
 .brute.combine= function(jj,sn,number.of.lines.before.data, number.of.before.headers,delim.sep,
                          min.number.of.columns.in.a.data.file, start.a.data.file){ 
-  print("africa 2:01")
   file.list = list.files( recursive=T)
   #j=0; j.max = length(file.list); pb <- txtProgressBar(min = 0, max = j.max, style = 3) # for progress bar
   k = file.list[1]
@@ -10,11 +9,6 @@
   for (k in file.list){
     j=j+1
     file.to.import = k;   
-    
-    # africa
-    print("lalal in AquaFlux_ImportFunctions.R .brute.combine 1")
-    print("file.to.import")
-    print(file.to.import)
     
     #### read in the data
     x=read.delim(k,sep=delim.sep,

@@ -100,8 +100,6 @@
     if (sum.na>0){
       # get data
       VPD = VPD[cc.time]
-      print("VPD plot1")
-      print(summary(VPD))
       # flip if this is dT
       x.VPD = .plot.flip.var(VPD,is.dT)
       x.VPD.thres = .plot.flip.var(VPD.thres,is.dT)
